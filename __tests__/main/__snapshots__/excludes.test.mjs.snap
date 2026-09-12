@@ -7233,23 +7233,6 @@ export interface BusinessUserConnectionApiModel {
   statusDisplay?: string;
 }
 
-export enum CallbackType {
-  \\"None\\" = \\"None\\",
-  \\"Redirect\\" = \\"Redirect\\",
-  \\"RedirectWithPost\\" = \\"RedirectWithPost\\",
-  \\"Call\\" = \\"Call\\",
-}
-
-export interface ClientPurchaseInput {
-  /** - Format: decimal */
-  amount: number;
-  /** - Format: int32 */
-  instituteCode: number;
-  /** - Format: int32 */
-  userWalletId: number;
-  driverCode?: string;
-}
-
 export enum ComissionType {
   \\"Percentage\\" = \\"Percentage\\",
   \\"Fixed\\" = \\"Fixed\\",
@@ -7357,64 +7340,6 @@ export interface DateReportApiModelOfInteger {
 export interface DeleteBusinessUserConnectionInvitationIdRemoveQueryParams {
   /** - Format: int64 */
   id?: number;
-}
-
-export interface DivideEpayRequestServiceInput {
-  /** - Format: decimal */
-  amount: number;
-  expiresAfterDays: number;
-  /** - Format: date-time */
-  invoiceDate: string;
-  isAutoRedirect: boolean;
-  isBlocking: boolean;
-  callBackUrl?: string;
-  description?: string;
-  divisions?: DivideEpayRequestShareModel[];
-  invoiceNumber?: string;
-}
-
-export interface DivideEpayRequestShareModel {
-  /** - Format: decimal */
-  amount: number;
-  /** - Format: decimal */
-  dividerAmount: number;
-  apiKey?: string;
-  invoiceNumber?: string;
-}
-
-export interface DividedEpayRequestCancelInput {
-  /** - Format: decimal */
-  dividerAmount: number;
-  /** - Format: decimal */
-  userAmount: number;
-  description?: string;
-  firstName?: string;
-  invoiceNumber?: string;
-  lastName?: string;
-  paymentToken?: string;
-  shebaNo?: string;
-  userApiKey?: string;
-}
-
-export interface DividedEpayRequestCancelResult {
-  /** - Format: decimal */
-  cancelledAmount: number;
-}
-
-export interface DividedEpayRequestUnblockInput {
-  /** - Format: decimal */
-  dividerAmount: number;
-  /** - Format: decimal */
-  userAmount: number;
-  description?: string;
-  invoiceNumber?: string;
-  paymentToken?: string;
-  userApiKey?: string;
-}
-
-export interface DividedEpayRequestUnblockResult {
-  /** - Format: decimal */
-  unblockedAmount: number;
 }
 
 export interface DocumentApiModel {
@@ -7570,13 +7495,6 @@ export interface EpayRequestApiModel {
   userAccountName?: string;
 }
 
-export interface EpayRequestCheckStatusResult {
-  requestStatus: EpayRequestStatus;
-  bankReferenceId?: string;
-  /** - Format: date-time */
-  verifyDate?: string;
-}
-
 export interface EpayRequestDetailApiModel {
   /** - Format: decimal */
   amount: number;
@@ -7687,15 +7605,6 @@ export interface EpayRequestForUserQuery {
   userDisplayName?: string;
 }
 
-export interface EpayRequestPayInput {
-  description?: string;
-}
-
-export interface EpayRequestPluginSpecificInput {
-  pluginPropertyId?: string;
-  value?: string;
-}
-
 export interface EpayRequestPublicInfoApiModel {
   /** - Format: decimal */
   amount: number;
@@ -7716,49 +7625,12 @@ export interface EpayRequestPublicInfoApiModel {
   userDisplayName?: string;
 }
 
-export interface EpayRequestServiceInput {
-  /** - Format: decimal */
-  amount: number;
-  callbackType: CallbackType;
-  /** - Format: guid */
-  clientId: string;
-  /** - Format: int32 */
-  domainId: number;
-  /** - Format: int32 */
-  expiresAfterDays: number;
-  getComissionFromPayer: boolean;
-  /** - Format: date-time */
-  invoiceDate: string;
-  isAutoConfirm: boolean;
-  isAutoRedirect: boolean;
-  /** - Format: int64 */
-  userAccountId: number;
-  /**
-   * - Format: guid
-   * - MinLength: 1
-   */
-  userId: string;
-  audiences?: EPayRequestAudienceInput[];
-  callbackUrl?: string;
-  description?: string;
-  invoiceNumber?: string;
-}
-
 export enum EpayRequestStatus {
   \\"Initiated\\" = \\"Initiated\\",
   \\"Paid\\" = \\"Paid\\",
   \\"Cancelled\\" = \\"Cancelled\\",
   \\"Expired\\" = \\"Expired\\",
   \\"Viewed\\" = \\"Viewed\\",
-}
-
-export interface EpayRequestTaskInput {
-  epayRequestTaskType: EpayRequestTaskType;
-}
-
-export enum EpayRequestTaskType {
-  \\"Resend\\" = \\"Resend\\",
-  \\"Cancel\\" = \\"Cancel\\",
 }
 
 export enum EpayRequestType {
@@ -7768,11 +7640,6 @@ export enum EpayRequestType {
   \\"DivideWithBlock\\" = \\"DivideWithBlock\\",
   \\"Charge\\" = \\"Charge\\",
   \\"IPG\\" = \\"IPG\\",
-}
-
-export interface EpayRequestWcfResult {
-  paymentUrl?: string;
-  requestToken?: string;
 }
 
 export enum FieldDisplayType {
@@ -7785,29 +7652,10 @@ export enum FieldDisplayType {
   \\"List\\" = \\"List\\",
 }
 
-export interface FileApiModel {
-  /** - Format: int64 */
-  fileSize: number;
-  /** - Format: guid */
-  uniqueId: string;
-  fileName?: string;
-  fileUrl?: string;
-}
-
 export enum FileTypes {
   \\"Other\\" = \\"Other\\",
   \\"Image\\" = \\"Image\\",
   \\"Pdf\\" = \\"Pdf\\",
-}
-
-export interface ForgetPasswordQuery {
-  token?: string;
-}
-
-export interface FullRegisterApiModel {
-  fullName?: string;
-  introducerCode?: string;
-  phoneNumber?: string;
 }
 
 export enum Gender {
@@ -8624,45 +8472,6 @@ export interface GetUserWalletUserWalletIdTransferMoneyCommissionQueryParams {
   amount?: number;
 }
 
-export interface GroupTransferInput {
-  /** - Format: decimal */
-  totalAmount: number;
-  /** - Format: int64 */
-  userWalletId: number;
-  description?: string;
-  targets?: GroupTransferTargetInput[];
-}
-
-export interface GroupTransferQuery {
-  /** - Format: decimal */
-  amount: number;
-  /** - Format: date-time */
-  createDate: string;
-  /** - Format: int64 */
-  voucherId: number;
-  createDateDisplay?: string;
-  description?: string;
-  targets?: GroupTransferTargetQuery[];
-  userAccountName?: string;
-  userDisplayName?: string;
-}
-
-export interface GroupTransferTargetInput {
-  /** - Format: decimal */
-  amount: number;
-  description?: string;
-  identifier?: string;
-}
-
-export interface GroupTransferTargetQuery {
-  /** - Format: decimal */
-  amount: number;
-  accountName?: string;
-  description?: string;
-  userDisplayName?: string;
-  userPhoneNumber?: string;
-}
-
 export enum GroupTransferTargetStatus {
   \\"InvalidIdentifier\\" = \\"InvalidIdentifier\\",
   \\"Ok\\" = \\"Ok\\",
@@ -8732,12 +8541,6 @@ export interface ImportantActionApiModel {
   typeDisplay?: string;
 }
 
-export interface InitApiModel {
-  versionState: TerminalVersionState;
-  appDownloadLink?: string;
-  versionStateDisplay?: string;
-}
-
 export interface KpiResult {
   /** - Format: date-time */
   end: string;
@@ -8761,21 +8564,6 @@ export interface KpiResultValue {
   targetId?: string;
 }
 
-export enum LogEventLevel {
-  \\"Verbose\\" = \\"Verbose\\",
-  \\"Debug\\" = \\"Debug\\",
-  \\"Information\\" = \\"Information\\",
-  \\"Warning\\" = \\"Warning\\",
-  \\"Error\\" = \\"Error\\",
-  \\"Fatal\\" = \\"Fatal\\",
-}
-
-export interface LogSetting {
-  globalLogLevel: LogEventLevel;
-  septaPayLogLevel: LogEventLevel;
-  serilogLogLevel: LogEventLevel;
-}
-
 export enum LogicalActionType {
   \\"EpayRequest\\" = \\"EpayRequest\\",
   \\"TransferMoney\\" = \\"TransferMoney\\",
@@ -8793,79 +8581,6 @@ export enum LogicalActionType {
   \\"Gift\\" = \\"Gift\\",
   \\"TaxiFairPayment\\" = \\"TaxiFairPayment\\",
   \\"HitoBitFee\\" = \\"HitoBitFee\\",
-}
-
-export interface MachineSignUp {
-  /** - Format: int64 */
-  customerNumber: number;
-  apiKey?: string;
-}
-
-export interface NewChargeRequestInput {
-  /**
-   * مبلغ شارژ
-   *
-   * - Format: decimal
-   */
-  amount: number;
-  /** آدرس بازگشت بعد از پرداخت */
-  callbackUrl?: string;
-}
-
-export interface NewChargeRequestResultQuery {
-  paymentLink?: string;
-}
-
-export interface NewEpayRequestInput {
-  /**
-   * مبلغ شارژ
-   *
-   * - Format: decimal
-   */
-  amount: number;
-  /** نوع ارجاع در هنگام ایجاد درخواست */
-  callbackType: CallbackType;
-  /**
-   * تاریخ انتقضا لینک ایجاد شده
-   *
-   * - Format: int32
-   */
-  expireDays: number;
-  /** انتقال مستقیم به درگاه */
-  isAutoConfirm: boolean;
-  /** - Format: guid */
-  assisstantUserId?: string;
-  /** اطلاعات پرداخت کننده / ها */
-  audiences?: EPayRequestAudienceInput[];
-  /** آدرس بازگشت بعد از پرداخت */
-  callbackUrl?: string;
-  /** توضحیات درخواست (بابت) */
-  description?: string;
-  /** نحوه دریافت کارمزد */
-  getComissionByPayer?: boolean;
-  /**
-   * تاریخ فاکتور
-   *
-   * - Format: date-time
-   */
-  invoiceDate?: string;
-  /** شماره فاکتور */
-  invoiceNumber?: string;
-  /**
-   * ...
-   *
-   * - Format: int32
-   */
-  pluginId?: number;
-  /** ... */
-  pluginSpecifics?: EpayRequestPluginSpecificInput[];
-}
-
-export interface NewUserIdentityRequestInput {
-  documents?: DocumentInput[];
-  firstName?: string;
-  lastName?: string;
-  nationalCode?: string;
 }
 
 export interface NotificationApiModel {
@@ -8923,21 +8638,6 @@ export enum NotificationModelType {
   \\"SystemMessages\\" = \\"SystemMessages\\",
 }
 
-export enum PlatformType {
-  \\"Unknown\\" = \\"Unknown\\",
-  \\"Server\\" = \\"Server\\",
-  \\"Android\\" = \\"Android\\",
-  \\"iOS\\" = \\"iOS\\",
-  \\"Device\\" = \\"Device\\",
-  \\"Browser\\" = \\"Browser\\",
-  \\"PWA\\" = \\"PWA\\",
-  \\"Web\\" = \\"Web\\",
-  \\"Windows\\" = \\"Windows\\",
-  \\"Linux\\" = \\"Linux\\",
-  \\"macOS\\" = \\"macOS\\",
-  \\"Desktop\\" = \\"Desktop\\",
-}
-
 export interface PluginApiModel {
   /** - Format: int32 */
   id: number;
@@ -8988,38 +8688,6 @@ export interface PosLandingPageApiModel {
   userDisplayName?: string;
 }
 
-export interface PosOnlinePayInput {
-  /** - Format: decimal */
-  amount: number;
-  callBackUrl?: string;
-  callbackType?: CallbackType;
-  description?: string;
-  /** - Format: guid */
-  subuserId?: string;
-}
-
-export interface PosWalletPayInput {
-  /** - Format: decimal */
-  amount: number;
-  /** - Format: int64 */
-  userWalletId: number;
-  description?: string;
-}
-
-export interface RegisterApiModel {
-  deviceBrandName?: string;
-  deviceId?: string;
-  deviceOsVersion?: string;
-  deviceToken?: string;
-  phoneNumber?: string;
-}
-
-export interface RegisterNewUserQuery {
-  /** - Format: guid */
-  userId: string;
-  token?: string;
-}
-
 export interface ReportApiModel {
   /** - Format: int32 */
   count: number;
@@ -9044,25 +8712,7 @@ export interface ReportApiModel {
 
 export type RequestBodyAccountCreationApiModel = AccountCreationApiModel;
 
-export interface RequestBodyFile_Upload {
-  /** - Format: binary */
-  file?: string;
-}
-
-export type RequestBodyLogEventLevel = LogEventLevel;
-
-export type RequestBodyNewEpayRequestInput = NewEpayRequestInput;
-
-export type RequestBodySubUserNotificationStatusInput =
-  SubUserNotificationStatusInput;
-
-export type RequestBodyTransferMoneyInput = TransferMoneyInput;
-
 export type RequestBodyUserBankInput = UserBankInput;
-
-export interface RequestTotpInput {
-  phoneNumber?: string;
-}
 
 export interface ReselledUserActivityApiModel {
   /** - Format: int32 */
@@ -9119,36 +8769,6 @@ export interface ResellerApiModel {
   endDateDisplay?: string;
   introduceLink?: string;
   startDateDisplay?: string;
-}
-
-export interface SendConnectionRequestInput {
-  email?: string;
-  phoneNumber?: string;
-  position?: string;
-}
-
-export enum SepidResponseType {
-  \\"Succesful\\" = \\"Succesful\\",
-  \\"Unsuccesful\\" = \\"Unsuccesful\\",
-}
-
-export interface SetAccountAccessForSubUserInput {
-  /** - Format: int64 */
-  userWalletId?: number;
-}
-
-export interface SetUserBasicInfoInput {
-  /** - Format: guid */
-  userId: string;
-  firstName?: string;
-  /** - Format: int64 */
-  introducerCode?: number;
-  lastName?: string;
-  password?: string;
-}
-
-export interface SettingApiModel {
-  logSetting?: LogSetting;
 }
 
 export interface SubDomainApiModel {
@@ -9272,10 +8892,6 @@ export interface SubUserInvitationApiModel {
   message?: string;
 }
 
-export interface SubUserNotificationStatusInput {
-  notificationEnabled: boolean;
-}
-
 export interface SubUserPermissionApiModel {
   canAccessToAccount: boolean;
   canAssistantsCreatesEpayRequest: boolean;
@@ -9310,15 +8926,6 @@ export enum SubUserPermissionType {
   \\"CanAssistantsCreatesEpayRequest\\" = \\"CanAssistantsCreatesEpayRequest\\",
 }
 
-export interface SubuserInvitationTaskInput {
-  subuserInvitationTaskType: SubuserInvitationTaskType;
-}
-
-export enum SubuserInvitationTaskType {
-  \\"Accept\\" = \\"Accept\\",
-  \\"Reject\\" = \\"Reject\\",
-}
-
 export enum SubuserStatus {
   \\"Connected\\" = \\"Connected\\",
   \\"DisconnectedByBusinessUser\\" = \\"DisconnectedByBusinessUser\\",
@@ -9336,45 +8943,11 @@ export interface TaxiInfoOutput {
   vehicleType?: string;
 }
 
-export enum TaxiPaymentProvider {
-  \\"Sepid\\" = \\"Sepid\\",
-  \\"Simorgh\\" = \\"Simorgh\\",
-}
-
 export interface TaxiPriceOutput {
   /** - Format: int64 */
   amount: number;
   currency?: string;
   title?: string;
-}
-
-export interface TaxiRecieptApiDto {
-  /** - Format: decimal */
-  amount: number;
-  /** - Format: date-time */
-  dateTime: string;
-  sepidResponse: SepidResponseType;
-  taxiProvider: TaxiPaymentProvider;
-  accountName?: string;
-  accountNumber?: string;
-  sepidResponseDisplay?: string;
-  taxiProviderDisplay?: string;
-}
-
-export interface TerminalVersionApiModel {
-  currentVersion?: string;
-  minimumVersion?: string;
-}
-
-export enum TerminalVersionState {
-  \\"Default\\" = \\"Default\\",
-  \\"UpToDate\\" = \\"UpToDate\\",
-  \\"Supported\\" = \\"Supported\\",
-  \\"Deprecated\\" = \\"Deprecated\\",
-}
-
-export interface TotpLoginResult {
-  token?: string;
 }
 
 export interface TransactionApiModel {
@@ -9487,15 +9060,6 @@ export interface TransferMoneyApiModel {
   userAccountName?: string;
 }
 
-export interface TransferMoneyInput {
-  /** - Format: decimal */
-  amount: number;
-  /** - Format: int64 */
-  targetUserAccountId: number;
-  description?: string;
-  targetIdentifier?: string;
-}
-
 export interface UnreadNotificationCountApiModel {
   channel: NotificationChannel;
   /** - Format: int32 */
@@ -9556,32 +9120,6 @@ export enum UpgradeToBusinessRejectCause {
   \\"DocumentsLack\\" = \\"DocumentsLack\\",
   \\"DocumentsMismatch\\" = \\"DocumentsMismatch\\",
   \\"Other\\" = \\"Other\\",
-}
-
-export interface UpgradeToBusinessUserInput {
-  address?: string;
-  businessName?: string;
-  businessShareType?: BusinessShareType;
-  businessType?: BusinessType;
-  city?: string;
-  documents?: DocumentInput[];
-  email?: string;
-  faxNumber?: string;
-  /** - Format: guid */
-  logoFileUniqueId?: string;
-  managerName?: string;
-  managerPhoneNumber?: string;
-  organizationName?: string;
-  organizationNationalCode?: string;
-  phoneNumber?: string;
-  state?: string;
-  /**
-   * [Deprecated, use 'BusinessShareType' instead]
-   *
-   * @deprecated Use 'BusinessShareType' instead.
-   */
-  userIdentityType?: BusinessShareType;
-  webSiteUrl?: string;
 }
 
 export interface UserBankApiModel {
@@ -9653,11 +9191,6 @@ export enum UserBankRejectCause {
   \\"Etc\\" = \\"Etc\\",
 }
 
-export interface UserChangePasswordInput {
-  currentPassword?: string;
-  newPassword?: string;
-}
-
 export type UserDetailQuery = UserMeQuery & {
   address?: string;
   city?: string;
@@ -9667,10 +9200,6 @@ export type UserDetailQuery = UserMeQuery & {
   phoneNumber?: string;
   state?: string;
 };
-
-export interface UserForgetPasswordInput {
-  phoneNumber?: string;
-}
 
 export enum UserIdentifierType {
   \\"Default\\" = \\"Default\\",
@@ -9799,13 +9328,6 @@ export enum UserStatus {
   \\"AutoPasswordGenerated\\" = \\"AutoPasswordGenerated\\",
 }
 
-export interface UserVerifyForgetPasswordInput {
-  newPassword?: string;
-  phoneNumber?: string;
-  token?: string;
-  verifyCode?: string;
-}
-
 export interface UserWorkspaceQuery {
   /** - Format: guid */
   businessUserId: string;
@@ -9813,15 +9335,6 @@ export interface UserWorkspaceQuery {
   businessAvatarUrl?: string;
   businessName?: string;
   positionTitle?: string;
-}
-
-export interface VerifyPhoneNumberInput {
-  /** - Format: guid */
-  userId: string;
-  /** - Format: guid */
-  subDomainId?: string;
-  token?: string;
-  verifyCode?: string;
 }
 
 export enum VoucherOperationType {

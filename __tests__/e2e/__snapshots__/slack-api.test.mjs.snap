@@ -14293,13 +14293,6 @@ export interface GetWorkflowsUpdateStepQueryParams {
   step_name?: string;
 }
 
-export interface RequestBodyadmin_inviteRequests_approve {
-  /** ID of the request to invite. */
-  invite_request_id: string;
-  /** ID for the workspace where the invite request was made. */
-  team_id?: string;
-}
-
 /**
  * Block Kit blocks
  *
@@ -14396,12 +14389,6 @@ export type Defs_file_id = string;
  */
 
 export type Defs_group_id = string;
-
-/** Default failure response */
-
-export enum Defs_ok_false {
-  \\"false\\" = false,
-}
 
 /** Default success response */
 

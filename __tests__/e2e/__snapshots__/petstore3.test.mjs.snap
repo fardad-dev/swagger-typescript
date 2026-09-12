@@ -1453,14 +1453,6 @@ export interface PostPetPetIdUploadImageQueryParams {
   additionalMetadata?: string;
 }
 
-/** Pet object that needs to be added to the store */
-
-export type RequestBodyPet = Pet;
-
-/** List of user object */
-
-export type RequestBodyUserArray = User[];
-
 export interface Tag {
   /** - Format: int64 */
   id?: number;

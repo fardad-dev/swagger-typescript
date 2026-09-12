@@ -32505,15 +32505,6 @@ export interface Attachment {
   name?: string;
 }
 
-export interface AttachmentRequest {
-  /** - Format: binary */
-  file: string;
-  /** - Format: uuid */
-  object_id: string;
-  /** - MinLength: 1 */
-  name?: string;
-}
-
 export interface Avatar {
   /** - Format: uri */
   avatar: string;
@@ -32934,19 +32925,6 @@ export interface CompanyNameCode {
    * - MinLength: 4
    */
   company_code?: string;
-}
-
-/**
- * A ModelSerializer that takes an additional \`fields\` argument that controls
- * which fields should be displayed.
- */
-
-export interface CompanyNameRequest {
-  /**
-   * - MaxLength: 255
-   * - MinLength: 1
-   */
-  name: string;
 }
 
 /**
@@ -33662,71 +33640,6 @@ export interface ContractCollateralType {
  * \`UniqueFieldsMixin\` ahead.
  */
 
-export interface ContractCreate {
-  category: ContractCategory;
-  company: CompanyNameCode;
-  counter: string;
-  currency: Currency;
-  project: ProjectNameCodeCompany;
-  revisions: RevisionCreate[];
-  slug: string;
-  subcontractor: SupplierName;
-  advance_payments?: ContractAdvancePayment[];
-  collaterals?: ContractCollateral[];
-  /** - Format: date */
-  contract_date?: string;
-  contract_description?: string;
-  /** - MaxLength: 255 */
-  contract_number?: string;
-  deductions?: ContractDeduction[];
-  /** - Format: uuid */
-  id?: string;
-  is_lump_sum?: boolean;
-  main_contractor?: SupplierName;
-  planned_payments?: ContractPlannedPayment[];
-  /** - Format: date */
-  work_end_date?: string;
-  /** - Format: date */
-  work_start_date?: string;
-}
-
-/**
- * Moves \`UniqueValidator\`'s from the validation stage to the save stage. It
- * solves the problem with nested validation for unique fields on update.
- *
- * If you want more details, you can read related issues and articles:
- * https://github.com/beda-software/drf-writable-nested/issues/1
- * http://www.django-rest-framework.org/api-guide/validators/#updating-nested-serializers
- *
- * Example of usage:
- *
- *         class Child(models.Model):
- *         field = models.CharField(unique=True)
- *
- *
- *     class Parent(models.Model):
- *         child = models.ForeignKey('Child')
- *
- *
- *     class ChildSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
- *         class Meta:
- *             model = Child
- *
- *
- *     class ParentSerializer(NestedUpdateMixin, serializers.ModelSerializer):
- *         child = ChildSerializer()
- *
- *         class Meta:
- *             model = Parent
- *
- * Note: \`UniqueFieldsMixin\` must be applied only on the serializer which has
- * unique fields.
- *
- * Note: When you are using both mixins (\`UniqueFieldsMixin\` and
- * \`NestedCreateMixin\` or \`NestedUpdateMixin\`) you should put
- * \`UniqueFieldsMixin\` ahead.
- */
-
 export interface ContractCreateRequest {
   /** - Format: uuid */
   category: string;
@@ -34112,15 +34025,6 @@ export interface ContractRevisionSummary {
    * - Pattern: ^-?\\\\d{0,15}(?:.\\\\d{0,4})?$
    */
   total: string;
-  comment?: string;
-}
-
-/**
- * A ModelSerializer that takes an additional \`fields\` argument that controls
- * which fields should be displayed.
- */
-
-export interface ContractRevisionSummaryRequest {
   comment?: string;
 }
 
@@ -36708,14 +36612,6 @@ export interface GroupMemberRequest {
   name: string;
 }
 
-export interface GroupRequest {
-  /**
-   * - MaxLength: 150
-   * - MinLength: 1
-   */
-  name: string;
-}
-
 /** Adds nested create feature */
 
 export interface IncomeInvoice {
@@ -37298,18 +37194,6 @@ export interface InvoiceRealizedPayment {
   amount?: string;
 }
 
-export interface InvoiceRealizedPaymentRequest {
-  /** - Format: date-time */
-  payment_date: string;
-  /** - Format: uuid */
-  payment_method: string;
-  /**
-   * - Format: decimal
-   * - Pattern: ^-?\\\\d{0,17}(?:.\\\\d{0,2})?$
-   */
-  amount?: string;
-}
-
 /** Adds nested create feature */
 
 export interface InvoiceRequest {
@@ -37419,22 +37303,6 @@ export type MaritalStatusEnum = \\"SINGLE\\" | \\"MARRIED\\";
 export interface Member {
   id: number;
   name: string;
-}
-
-export interface Notification {
-  status_type: StatusTypeEnum;
-  subscription: {
-    browser?: string;
-    endpoint?: string;
-    keys?: { auth?: string; p256dh?: string };
-    user_agent?: string;
-  };
-  /** - MaxLength: 255 */
-  browser?: string;
-  /** - MaxLength: 255 */
-  group?: string;
-  /** - MaxLength: 255 */
-  user_agent?: string;
 }
 
 export interface NotificationRequest {
@@ -41017,34 +40885,6 @@ export interface Product {
   weight?: number;
 }
 
-export interface ProductCreate {
-  activity: ActivityNameCode;
-  /** - Format: uuid */
-  id: string;
-  /**
-   * - Format: decimal
-   * - Pattern: ^-?\\\\d{0,16}(?:.\\\\d{0,4})?$
-   */
-  quantity: string;
-  resource: ResourceNameCode;
-  unit: ResourceUnit;
-  /** - Format: date-time */
-  waybill_date: string;
-  wbs: WBSNameCode;
-  brand?: string;
-  company?: CompanyName;
-  description?: string;
-  project?: ProjectName;
-  serial_number?: string;
-  supplier?: SupplierName;
-  /** - Format: double */
-  volume?: number;
-  warehouse?: WarehouseName;
-  waybill_no?: string;
-  /** - Format: double */
-  weight?: number;
-}
-
 export interface ProductCreateRequest {
   /** - Format: uuid */
   activity: string;
@@ -41701,21 +41541,6 @@ export interface ProjectNameCodeCompany {
   name: string;
   project_code: string;
   companies?: CompanyName[];
-}
-
-/**
- * A ModelSerializer that takes an additional \`fields\` argument that controls
- * which fields should be displayed.
- */
-
-export interface ProjectNameCodeRequest {
-  /**
-   * - MaxLength: 255
-   * - MinLength: 1
-   */
-  name: string;
-  /** - MinLength: 1 */
-  project_code: string;
 }
 
 /**
@@ -42905,15 +42730,6 @@ export interface Revision {
 
 /** Adds nested create feature */
 
-export interface RevisionCreate {
-  /** - Format: uuid */
-  id: string;
-  current?: boolean;
-  items?: ContractItem[];
-}
-
-/** Adds nested create feature */
-
 export interface RevisionCreateRequest {
   current?: boolean;
   items?: ContractItemRequest[];
@@ -43264,18 +43080,6 @@ export interface SpecialInvoiceRealizedPayment {
   amount?: string;
 }
 
-export interface SpecialInvoiceRealizedPaymentRequest {
-  /** - Format: date-time */
-  payment_date: string;
-  /** - Format: uuid */
-  payment_method: string;
-  /**
-   * - Format: decimal
-   * - Pattern: ^-?\\\\d{0,17}(?:.\\\\d{0,2})?$
-   */
-  amount?: string;
-}
-
 /** Adds nested create feature */
 
 export interface SpecialInvoiceRequest {
@@ -43357,16 +43161,6 @@ export interface State {
  */
 
 export type State99dEnum = \\"UNDEFINED\\" | \\"PORTFOLIO\\" | \\"CASHED\\" | \\"CANCEL\\";
-
-export interface StateRequest {
-  /** - MinLength: 1 */
-  id: string;
-  /**
-   * - MaxLength: 50
-   * - MinLength: 1
-   */
-  label: string;
-}
 
 /** - \`ACTIVE\` - Active \`DEACTIVE\` - Deactive */
 
@@ -43716,21 +43510,6 @@ export interface SupplierName {
  * which fields should be displayed.
  */
 
-export interface SupplierNameRequest {
-  /**
-   * Supplier name
-   *
-   * - MaxLength: 255
-   * - MinLength: 1
-   */
-  name: string;
-}
-
-/**
- * A ModelSerializer that takes an additional \`fields\` argument that controls
- * which fields should be displayed.
- */
-
 export interface SupplierRequest {
   activity_type: string[];
   branch: string[];
@@ -43958,28 +43737,6 @@ export interface Transaction {
   direction?: TransactionDirectionEnum;
 }
 
-export interface TransactionCreate {
-  /** - Format: uuid */
-  id: string;
-  new_status: WarehouseTransactionStatus;
-  old_status: WarehouseTransactionStatus;
-  /** - Format: uuid */
-  product: string;
-  /** - Format: date-time */
-  txn_date: string;
-  new_company?: CompanyName;
-  new_project?: ProjectName;
-  new_warehouse?: WarehouseName;
-  old_company?: CompanyName;
-  old_project?: ProjectName;
-  old_warehouse?: WarehouseName;
-  /**
-   * - Format: decimal
-   * - Pattern: ^-?\\\\d{0,15}(?:.\\\\d{0,4})?$
-   */
-  quantity?: string;
-}
-
 export interface TransactionCreateRequest {
   new_status: WarehouseTransactionStatus;
   old_status: WarehouseTransactionStatus;
@@ -44025,10 +43782,6 @@ export interface TransactionList {
    * - Format: date-time
    */
   txn_date?: string;
-}
-
-export interface TransactionListCreate {
-  transactions: TransactionCreate[];
 }
 
 export interface TransactionListCreateRequest {

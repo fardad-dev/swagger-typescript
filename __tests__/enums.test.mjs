@@ -1,5 +1,38 @@
 import { cleanOutputDir, generator } from "./main/utils.mjs";
-import swaggerJson from "./swagger.json";
+import baseSwaggerJson from "./swagger.json";
+
+// Only types reachable from an endpoint are generated, so expose the standalone
+// enum schemas through one endpoint to keep them covered here
+const swaggerJson = {
+  ...baseSwaggerJson,
+  paths: {
+    ...baseSwaggerJson.paths,
+    "/enums": {
+      get: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    enumWithoutName: {
+                      $ref: "#/components/schemas/EnumWithoutName",
+                    },
+                    notificationLevel: {
+                      $ref: "#/components/schemas/NotificationLevel",
+                    },
+                    type: { $ref: "#/components/schemas/Type" },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
 
 describe("enums", () => {
   beforeAll(async () => {

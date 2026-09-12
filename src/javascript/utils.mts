@@ -150,12 +150,12 @@ function normalizeObjectPropertyNullable(
 }
 
 /**
- * Handles reference types ($ref) and returns appropriate TypeScript type
+ * Returns the name of the generated type a $ref points to
  *
  * @param $ref - The reference string
- * @returns TypeScript type for the reference
+ * @returns Name of the generated type
  */
-function handleRefType($ref: string): string {
+function getTypeNameFromRef($ref: string): string {
   const refArray = $ref.split("/");
   if (refArray[refArray.length - 2] === "requestBodies") {
     return `RequestBody${getRefName($ref)}`;
@@ -386,7 +386,7 @@ function getTsType(
 
   // Handle reference types
   if ($ref) {
-    return handleRefType($ref);
+    return getTypeNameFromRef($ref);
   }
 
   // Handle enum types
@@ -565,6 +565,7 @@ export {
   generateServiceName,
   getTsType,
   getRefName,
+  getTypeNameFromRef,
   isAscending,
   getDefineParam,
   getParamString,

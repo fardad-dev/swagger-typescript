@@ -139,7 +139,6 @@ import type {
   Login,
   Password,
   PasswordResetKey,
-  Provider,
   ProviderSignup,
   Reauthenticate,
   RequestBodyChangePassword,
@@ -162,7 +161,6 @@ import type {
   RequestBodySignup,
   RequestBodyVerifyEmail,
   RequestBodyVerifyPhone,
-  Session,
   SessionToken,
   Signup,
   StatusOK,
@@ -1572,7 +1570,6 @@ import { Http } from \\"./httpRequest\\";
 //@ts-ignore
 import qs from \\"qs\\";
 import type {
-  Session,
   Authenticated,
   Reauthenticate,
   ProviderSignup,
@@ -1582,7 +1579,6 @@ import type {
   StatusOK,
   Password,
   TOTPAuthenticator,
-  Provider,
   EmailVerificationInfo,
   EmailVerificationKey,
   PasswordResetKey,
@@ -2647,35 +2643,11 @@ export const _CONSTANT2 = {
  * @version 6
  */
 
-/** Configuration of the Django \`allauth.account\` app. */
-
-export interface AccountConfiguration {
-  email_verification_by_code_enabled: boolean;
-  is_open_for_signup: boolean;
-  login_by_code_enabled: boolean;
-  login_methods?: (\\"email\\" | \\"username\\")[];
-  password_reset_by_code_enabled?: boolean;
-}
-
 export interface Authenticated {
   /** A list of methods used to authenticate. */
   methods: AuthenticationMethod[];
   user: User;
 }
-
-export type AuthenticatedMeta = BaseAuthenticationMeta & {
-  is_authenticated: true;
-};
-
-export interface AuthenticatedResponse {
-  data: Authenticated;
-  meta: AuthenticationMeta;
-  status: StatusOK;
-}
-
-export type AuthenticationMeta = BaseAuthenticationMeta & {
-  is_authenticated: boolean;
-};
 
 export type AuthenticationMethod =
   | { at: Timestamp; method: \\"password\\"; email?: Email; username?: Username }
@@ -2696,14 +2668,6 @@ export type AuthenticationMethod =
       reauthenticated?: boolean;
     };
 
-/** An authentication related response. */
-
-export interface AuthenticationResponse {
-  data: { flows: Flow[] };
-  meta: AuthenticationMeta;
-  status: 401;
-}
-
 /**
  * An authenticator code.
  *
@@ -2713,41 +2677,9 @@ export interface AuthenticationResponse {
 
 export type AuthenticatorCode = string;
 
-/**
- * Authenticator ID.
- *
- * @example
- *   123;
- */
-
-export type AuthenticatorID = any;
-
-export type AuthenticatorList = (
-  | TOTPAuthenticator
-  | RecoveryCodesAuthenticator
-  | WebAuthnAuthenticator
-)[];
-
 /** The type of authenticator. */
 
 export type AuthenticatorType = \\"recovery_codes\\" | \\"totp\\";
-
-export interface BaseAuthenticationMeta {
-  /**
-   * The access token (\`app\` clients only).
-   *
-   * @example
-   *   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdW;
-   */
-  access_token?: string;
-  /**
-   * The session token (\`app\` clients only).
-   *
-   * @example
-   *   ufwcig0zen9skyd545jc0fkq813ghar2;
-   */
-  session_token?: string;
-}
 
 export interface BaseAuthenticator {
   created_at: Timestamp;
@@ -2776,27 +2708,8 @@ export type ClientID = string;
 
 export type Code = string;
 
-/**
- * @example
- *   [object Object]
- */
-
-export interface ConfigurationResponse {
-  data: {
-    account: AccountConfiguration;
-    mfa?: MFAConfiguration;
-    socialaccount?: SocialAccountConfiguration;
-    usersessions?: UserSessionsConfiguration;
-  };
-  status: StatusOK;
-}
-
 export interface ConfirmLoginCode {
   code: Code;
-}
-
-export interface ConflictResponse {
-  status: 409;
 }
 
 /**
@@ -2807,16 +2720,6 @@ export interface ConflictResponse {
  */
 
 export type Email = string;
-
-export interface EmailAddress {
-  email: Email;
-  /**
-   * @example
-   *   true;
-   */
-  primary: boolean;
-  verified: boolean;
-}
 
 export interface EmailVerificationInfo {
   data: { email: Email; user: User };
@@ -2833,57 +2736,6 @@ export interface EndSessions {
   sessions: number[];
 }
 
-export interface ErrorResponse {
-  errors?: {
-    /**
-     * An error code.
-     *
-     * @example
-     *   invalid;
-     */
-    code: string;
-    /**
-     * A human readable error message.
-     *
-     * @example
-     *   Enter a valid email address.
-     */
-    message: string;
-    /**
-     * The name of the input parameter that was incorrect.
-     *
-     * @example
-     *   email;
-     */
-    param?: string;
-  }[];
-  /**
-   * @example
-   *   400;
-   */
-  status?: 400;
-}
-
-export interface Flow {
-  id:
-    | \\"login\\"
-    | \\"mfa_authenticate\\"
-    | \\"mfa_reauthenticate\\"
-    | \\"provider_redirect\\"
-    | \\"provider_signup\\"
-    | \\"provider_token\\"
-    | \\"reauthenticate\\"
-    | \\"signup\\"
-    | \\"verify_email\\"
-    | \\"verify_phone\\";
-  is_pending?: true;
-  provider?: Provider;
-}
-
-export interface ForbiddenResponse {
-  status: 403;
-}
-
 export type Login = { password: Password } & (
   | { username: Username }
   | { email: Email }
@@ -2894,20 +2746,7 @@ export interface MFAAuthenticate {
   code: AuthenticatorCode;
 }
 
-/** Configuration of the Django \`allauth.mfa\` app. */
-
-export interface MFAConfiguration {
-  /** Matches \`settings.MFA_SUPPORTED_TYPES\`. */
-  supported_types: AuthenticatorType[];
-}
-
-export interface MFATrust {
-  trust: boolean;
-}
-
 export type OptionalTimestamp = Timestamp;
-
-export type PasskeySignup = BaseSignup;
 
 /**
  * The password.
@@ -2931,32 +2770,6 @@ export type PasswordResetKey = string;
 
 export type Phone = string;
 
-/** A phone number. */
-
-export interface PhoneNumber {
-  /**
-   * @example
-   *   +314159265359;
-   */
-  phone: string;
-  verified: boolean;
-}
-
-/**
- * @example
- *   [object Object]
- */
-
-export interface PhoneNumberChangeResponse {
-  data: PhoneNumber[];
-  status: StatusAccepted;
-}
-
-export interface PhoneNumbersResponse {
-  data: PhoneNumber[];
-  status: StatusOK;
-}
-
 /**
  * The process to be executed when the user successfully authenticates. When set
  * to \`login\`, the user will be logged into the account to which the provider
@@ -2969,52 +2782,6 @@ export interface PhoneNumbersResponse {
  */
 
 export type Process = \\"login\\" | \\"connect\\";
-
-export interface Provider {
-  /** The authentication flows the provider integration supports. */
-  flows: (\\"provider_redirect\\" | \\"provider_token\\")[];
-  /**
-   * The provider ID.
-   *
-   * @example
-   *   google;
-   */
-  id: string;
-  /**
-   * The name of the provider.
-   *
-   * @example
-   *   Google;
-   */
-  name: string;
-  /**
-   * The client ID (in case of OAuth2 or OpenID Connect based providers)
-   *
-   * @example
-   *   123.apps.googleusercontent.com
-   */
-  client_id?: string;
-  /**
-   * The OIDC discovery or well-known URL (in case of OAuth2 or OpenID Connect
-   * based providers)
-   *
-   * @example
-   *   https://accounts.google.com/.well-known/openid-configuration
-   */
-  openid_configuration_url?: string;
-}
-
-export interface ProviderAccount {
-  /**
-   * A name derived from the third-party provider account data.
-   *
-   * @example
-   *   Wizzkid;
-   */
-  display: string;
-  provider: Provider;
-  uid: ProviderAccountID;
-}
 
 /**
  * The provider specific account ID.
@@ -3033,8 +2800,6 @@ export type ProviderAccountID = string;
  */
 
 export type ProviderID = string;
-
-export type ProviderList = Provider[];
 
 export interface ProviderRedirect {
   /**
@@ -3100,48 +2865,6 @@ export interface Reauthenticate {
   password: Password;
 }
 
-/** A response indicating reauthentication is required. */
-
-export interface ReauthenticationResponse {
-  data: Authenticated;
-  meta: AuthenticatedMeta;
-  status: 401;
-}
-
-export type RecoveryCodesAuthenticator = BaseAuthenticator & {
-  /**
-   * The total number of recovery codes that initially were available.
-   *
-   * @example
-   *   10;
-   */
-  total_code_count: number;
-  /** The authenticator type. */
-  type: \\"recovery_codes\\";
-  /**
-   * The number of recovery codes that are unused.
-   *
-   * @example
-   *   7;
-   */
-  unused_code_count: number;
-};
-
-export interface RequestBodyAddWebAuthnAuthenticator {
-  credential: WebAuthnCredential;
-  /**
-   * @example
-   *   Master key
-   */
-  name?: string;
-}
-
-/** Authenticate using WebAuthn. */
-
-export interface RequestBodyAuthenticateWebAuthn {
-  credential: WebAuthnCredential;
-}
-
 export interface RequestBodyChangePassword {
   /**
    * The current password.
@@ -3154,11 +2877,6 @@ export interface RequestBodyChangePassword {
 }
 
 export type RequestBodyConfirmLoginCode = ConfirmLoginCode;
-
-export interface RequestBodyDeleteWebAuthn {
-  /** The IDs of the authenticator that are to be deleted. */
-  authenticators: AuthenticatorID[];
-}
 
 export interface RequestBodyEmail {
   /**
@@ -3176,15 +2894,7 @@ export type RequestBodyEndSessions = EndSessions;
 
 export type RequestBodyLogin = Login;
 
-/** Login using WebAuthn. */
-
-export interface RequestBodyLoginWebAuthn {
-  credential: WebAuthnCredential;
-}
-
 export type RequestBodyMFAAuthenticate = MFAAuthenticate;
-
-export type RequestBodyMFATrust = MFATrust;
 
 export interface RequestBodyMarkPrimaryEmail {
   /**
@@ -3197,10 +2907,6 @@ export interface RequestBodyMarkPrimaryEmail {
   /** Primary flag. */
   primary: true;
 }
-
-/** Signup using a passkey */
-
-export type RequestBodyPasskeySignup = PasskeySignup;
 
 export interface RequestBodyPhone {
   /**
@@ -3229,12 +2935,6 @@ export type RequestBodyProviderToken = ProviderToken;
 
 export type RequestBodyReauthenticate = Reauthenticate;
 
-/** Reauthenticate using WebAuthn. */
-
-export interface RequestBodyReauthenticateWebAuthn {
-  credential: WebAuthnCredential;
-}
-
 /** Request a login code. */
 
 export type RequestBodyRequestLoginCode = RequestLoginCode;
@@ -3252,15 +2952,6 @@ export interface RequestBodySetupTOTP {
 /** Signup */
 
 export type RequestBodySignup = Signup;
-
-export interface RequestBodyUpdateWebAuthn {
-  id?: AuthenticatorID;
-  /**
-   * @example
-   *   Master key
-   */
-  name?: string;
-}
 
 export type RequestBodyVerifyEmail = VerifyEmail;
 
@@ -3283,53 +2974,11 @@ export interface ResetPassword {
   password: Password;
 }
 
-export type SensitiveRecoveryCodesAuthenticator = RecoveryCodesAuthenticator & {
-  /** The list of unused codes. */
-  unused_codes: AuthenticatorCode[];
-};
-
-export interface Session {
-  created_at: Timestamp;
-  /**
-   * @example
-   *   123;
-   */
-  id: number;
-  /**
-   * @example
-   *   127.2.3.192
-   */
-  ip: string;
-  is_current: boolean;
-  /**
-   * @example
-   *   Mozilla Firefox
-   */
-  user_agent: string;
-  last_seen_at?: Timestamp;
-}
-
-/** The session is expired or invalid. */
-
-export interface SessionGoneResponse {
-  data: { [x in string | number]: any };
-  meta: AuthenticationMeta;
-  status: 410;
-}
-
 /** Session token. Only needed when \`client\` is equal to \`app\`. */
 
 export type SessionToken = string;
 
 export type Signup = BaseSignup & { password: Password };
-
-/** Configuration of the Django \`allauth.socialaccount\` app. */
-
-export interface SocialAccountConfiguration {
-  providers: ProviderList;
-}
-
-export type StatusAccepted = 202;
 
 export type StatusOK = 200;
 
@@ -3389,13 +3038,6 @@ export interface User {
   username?: string;
 }
 
-/** Configuration of the Django \`allauth.usersessions\` app. */
-
-export interface UserSessionsConfiguration {
-  /** Matches \`settings.USERSESSIONS_TRACK_ACTIVITY\`. */
-  track_activity: boolean;
-}
-
 /**
  * The username.
  *
@@ -3423,44 +3065,6 @@ export interface VerifyPhone {
    *   4S3H82
    */
   code: string;
-}
-
-export type WebAuthnAuthenticator = BaseAuthenticator & {
-  id: AuthenticatorID;
-  /**
-   * @example
-   *   Master key
-   */
-  name: string;
-  type: \\"webauthn\\";
-  /**
-   * Whether or not this authenticator represents a passkey. Absent if it is not
-   * specified.
-   */
-  is_passwordless?: boolean;
-};
-
-/**
- * @example
- *   [object Object]
- */
-
-export type WebAuthnCredential = { [x in string | number]: any };
-
-export interface WebAuthnCredentialCreationOptions {
-  /**
-   * @example
-   *   [object Object]
-   */
-  creation_options: { [x in string | number]: any };
-}
-
-export interface WebAuthnCredentialRequestOptions {
-  /**
-   * @example
-   *   [object Object]
-   */
-  request_options: { [x in string | number]: any };
 }
 ",
 }

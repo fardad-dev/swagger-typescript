@@ -16,6 +16,9 @@ import qs from \\"qs\\";
 import type {
   GetSettlementV1PrivateSettlementGetQueryParams,
   SettlementRequestResultListResponseVM,
+  NotificationLevel,
+  EnumWithoutName,
+  Type,
 } from \\"./types\\";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -75,6 +78,27 @@ function objToUrlencoded(requestBody: object) {
   return qs.stringify(requestBody);
 }
 
+export const getEnums = (
+  configOverride?: AxiosRequestConfig,
+): Promise<
+  SwaggerResponse<{
+    enumWithoutName?: EnumWithoutName;
+    notificationLevel?: NotificationLevel;
+    type?: Type;
+  }>
+> => {
+  return Http.getRequest(
+    getEnums.key,
+    undefined,
+    undefined,
+    undefined,
+    overrideConfig(_CONSTANT2, configOverride),
+  );
+};
+
+/** Key is end point string without base url */
+getEnums.key = \\"/enums\\";
+
 export const getSettlementV1PrivateSettlementGet = (
   queryParams?: GetSettlementV1PrivateSettlementGetQueryParams,
   configOverride?: AxiosRequestConfig,
@@ -96,6 +120,12 @@ export const _CONSTANT1 = {
   headers: {
     \\"Content-Type\\": \\"application/json\\",
     Accept: \\"text/plain\\",
+  },
+};
+export const _CONSTANT2 = {
+  headers: {
+    \\"Content-Type\\": \\"application/json\\",
+    Accept: \\"application/json\\",
   },
 };
 "
@@ -184,6 +214,9 @@ import qs from \\"qs\\";
 import type {
   GetSettlementV1PrivateSettlementGetQueryParams,
   SettlementRequestResultListResponseVM,
+  NotificationLevel,
+  EnumWithoutName,
+  Type,
 } from \\"./types\\";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -243,6 +276,27 @@ function objToUrlencoded(requestBody: object) {
   return qs.stringify(requestBody);
 }
 
+export const getEnums = (
+  configOverride?: AxiosRequestConfig,
+): Promise<
+  SwaggerResponse<{
+    enumWithoutName?: EnumWithoutName;
+    notificationLevel?: NotificationLevel;
+    type?: Type;
+  }>
+> => {
+  return Http.getRequest(
+    getEnums.key,
+    undefined,
+    undefined,
+    undefined,
+    overrideConfig(_CONSTANT2, configOverride),
+  );
+};
+
+/** Key is end point string without base url */
+getEnums.key = \\"/enums\\";
+
 export const getSettlementV1PrivateSettlementGet = (
   queryParams?: GetSettlementV1PrivateSettlementGetQueryParams,
   configOverride?: AxiosRequestConfig,
@@ -264,6 +318,12 @@ export const _CONSTANT1 = {
   headers: {
     \\"Content-Type\\": \\"application/json\\",
     Accept: \\"text/plain\\",
+  },
+};
+export const _CONSTANT2 = {
+  headers: {
+    \\"Content-Type\\": \\"application/json\\",
+    Accept: \\"application/json\\",
   },
 };
 "

@@ -4,6 +4,8 @@ import {
   getHeaderParams,
   getParametersInfo,
   getRefName,
+  getSchemaName,
+  getTypeNameFromRef,
   toPascalCase,
 } from "./utils.mjs";
 import type {
@@ -33,6 +35,11 @@ type GeneratorContext = {
   config: Config;
   includeFilters: RegExp[];
   excludeFilters: RegExp[];
+  /**
+   * Names of the types the generated endpoints render directly, the roots
+   * `removeUnusedTypes` keeps the reachable types from
+   */
+  rootTypeNames: Set<string>;
 };
 
 function generator(
@@ -52,6 +59,7 @@ function generator(
     excludeFilters: (config.excludes || []).map(
       (pattern) => new RegExp(pattern),
     ),
+    rootTypeNames: new Set(),
   };
 
   try {
@@ -60,6 +68,9 @@ function generator(
 
     // Extract types from components
     extractComponentTypes(context);
+
+    // Keep only the types the generated endpoints can reach
+    removeUnusedTypes(context);
 
     // Generate final code
     let code = generateApis(context.apis, context.types, config);
@@ -161,6 +172,7 @@ function createQueryParamsType(
       properties,
     },
   });
+  context.rootTypeNames.add(getSchemaName(typeName));
 
   return typeName;
 }
@@ -279,6 +291,10 @@ function processEndpointMethod(
   const contentType = getContentType(context, options.requestBody);
   const accept = getAcceptHeader(options.responses);
 
+  // Only the parameters, the request body and the 200 response of an included
+  // endpoint are rendered, so they are the roots of the used types graph
+  collectRefs([parameters, requestBody, responses], context.rootTypeNames);
+
   // Build API object
   context.apis.push({
     contentType: contentType as ApiAST["contentType"],
@@ -360,6 +376,98 @@ function extractComponentTypes(context: GeneratorContext): void {
       }
     });
   }
+}
+
+/**
+ * Collects the name of every generated type a schema tree refers to
+ *
+ * Walks the whole tree, so refs nested in `properties`, `items`, `allOf`,
+ * `oneOf`, `anyOf` or `additionalProperties` are all found. Beside `$ref`, the
+ * targets of a `discriminator.mapping` are collected too: the subtypes of a
+ * discriminated union belong to the api surface even though the base type
+ * renders their discriminator values as a literal union instead of referencing
+ * them.
+ *
+ * @param node - Any schema, parameter or array of them
+ * @param refs - Set the found type names are added to
+ */
+function collectRefs(node: unknown, refs: Set<string>): void {
+  if (!node || typeof node !== "object") {
+    return;
+  }
+
+  if (Array.isArray(node)) {
+    node.forEach((item) => collectRefs(item, refs));
+    return;
+  }
+
+  Object.entries(node as Record<string, unknown>).forEach(([key, value]) => {
+    if (key === "$ref") {
+      if (typeof value === "string") {
+        refs.add(getTypeNameFromRef(value));
+      }
+      return;
+    }
+
+    // Subtypes of a discriminated union are part of the api surface even though
+    // nothing references them by $ref
+    if (key === "discriminator") {
+      const mapping = (value as Schema["discriminator"])?.mapping;
+      if (mapping) {
+        Object.values(mapping).forEach((ref) =>
+          refs.add(getTypeNameFromRef(ref)),
+        );
+      }
+      return;
+    }
+
+    collectRefs(value, refs);
+  });
+}
+
+/**
+ * Drops the types no generated endpoint can reach
+ *
+ * A document usually defines far more components than the generated endpoints
+ * use, and `includes`/`excludes` filters make the gap bigger. Starting from
+ * `context.rootTypeNames` - the types the generated endpoints render directly -
+ * every reachable type is collected by following the refs of the types already
+ * kept, then `context.types` is reduced to that set.
+ *
+ * The result stays self contained: a kept type can only refer to types which
+ * are kept as well.
+ *
+ * @param context - Generator context, its `types` are filtered in place
+ */
+function removeUnusedTypes(context: GeneratorContext): void {
+  const typesByName = new Map<string, TypeAST[]>();
+  context.types.forEach((type) => {
+    const name = getSchemaName(type.name);
+    typesByName.set(name, [...(typesByName.get(name) || []), type]);
+  });
+
+  const usedTypeNames = new Set<string>();
+  const pendingTypeNames = [...context.rootTypeNames];
+
+  while (pendingTypeNames.length) {
+    const name = pendingTypeNames.pop()!;
+    if (usedTypeNames.has(name)) {
+      continue;
+    }
+    usedTypeNames.add(name);
+
+    const refs = new Set<string>();
+    typesByName.get(name)?.forEach((type) => collectRefs(type, refs));
+    refs.forEach((ref) => {
+      if (!usedTypeNames.has(ref)) {
+        pendingTypeNames.push(ref);
+      }
+    });
+  }
+
+  context.types = context.types.filter(({ name }) =>
+    usedTypeNames.has(getSchemaName(name)),
+  );
 }
 
 /** Extract body content from response or request body */

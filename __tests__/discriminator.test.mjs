@@ -16,7 +16,23 @@ describe("discriminator support", () => {
         title: "Test API",
         version: "1.0.0",
       },
-      paths: {},
+      paths: {
+        "/hotsheardto": {
+          get: {
+            responses: {
+              200: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/HotShearDto",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       components: {
         schemas: {
           HotShearBaseDto: {
@@ -155,7 +171,23 @@ describe("discriminator support", () => {
         title: "Test API",
         version: "1.0.0",
       },
-      paths: {},
+      paths: {
+        "/animal": {
+          get: {
+            responses: {
+              200: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/Animal",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       components: {
         schemas: {
           Animal: {
