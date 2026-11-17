@@ -78,7 +78,8 @@
   "files": [
     "lib",
     "files",
-    "bin"
+    "bin",
+    "AI_GUIDE.md"
   ],
   "packageManager": "yarn@1.22.22"
 }
