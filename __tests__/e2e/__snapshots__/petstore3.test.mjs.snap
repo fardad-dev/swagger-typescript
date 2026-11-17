@@ -168,10 +168,15 @@ export type SwaggerTypescriptMutationDefaultParams<TExtra> = {
   _extraVariables?: TExtra;
   configOverride?: AxiosRequestConfig;
 };
+type SwaggerTypescriptExtraQueryKey = {
+  /** Extra values appended to the end of the generated query key. */
+  extraQueryKey?: QueryKey;
+};
 type SwaggerTypescriptUseQueryOptions<TData> = Omit<
   UseQueryOptions<SwaggerResponse<TData>, RequestError | Error>,
   \\"queryKey\\"
->;
+> &
+  SwaggerTypescriptExtraQueryKey;
 
 type SwaggerTypescriptUseMutationOptions<TData, TRequest, TExtra> =
   UseMutationOptions<
@@ -247,20 +252,30 @@ export const useGetPetFindByStatus = (
   options?: SwaggerTypescriptUseQueryOptions<Pet[]>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPetFindByStatus.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPetFindByStatus.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetPetFindByStatus.info = (
   queryParams: GetPetFindByStatusQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getPetFindByStatus.key, queryParams] as QueryKey,
+    key: [
+      getPetFindByStatus.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getPetFindByStatus(queryParams, configOverride),
   };
 };
@@ -270,14 +285,19 @@ useGetPetFindByStatus.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<Pet[]>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPetFindByStatus.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPetFindByStatus.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -287,20 +307,30 @@ export const useGetPetFindByTags = (
   options?: SwaggerTypescriptUseQueryOptions<Pet[]>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPetFindByTags.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPetFindByTags.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetPetFindByTags.info = (
   queryParams: GetPetFindByTagsQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getPetFindByTags.key, queryParams] as QueryKey,
+    key: [
+      getPetFindByTags.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getPetFindByTags(queryParams, configOverride),
   };
 };
@@ -310,14 +340,19 @@ useGetPetFindByTags.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<Pet[]>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPetFindByTags.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPetFindByTags.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -328,21 +363,27 @@ export const useGetPetPetId = (
   options?: SwaggerTypescriptUseQueryOptions<Pet>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPetPetId.info(petId, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPetPetId.info(
+    petId,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetPetPetId.info = (
   /** ID of pet to return */
   petId: number,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getPetPetId.key, petId] as QueryKey,
+    key: [getPetPetId.key, petId, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getPetPetId(petId, configOverride),
   };
 };
@@ -354,14 +395,19 @@ useGetPetPetId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<Pet>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPetPetId.info(petId, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPetPetId.info(
+    petId,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -370,17 +416,21 @@ export const useGetStoreInventory = (
   options?: SwaggerTypescriptUseQueryOptions<{ [x: string]: number }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetStoreInventory.info(configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetStoreInventory.info(configOverride, extraQueryKey);
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
-useGetStoreInventory.info = (configOverride?: AxiosRequestConfig) => {
+useGetStoreInventory.info = (
+  configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
+) => {
   return {
-    key: [getStoreInventory.key] as QueryKey,
+    key: [getStoreInventory.key, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getStoreInventory(configOverride),
   };
 };
@@ -389,14 +439,15 @@ useGetStoreInventory.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ [x: string]: number }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetStoreInventory.info(configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetStoreInventory.info(configOverride, extraQueryKey);
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -407,21 +458,31 @@ export const useGetStoreOrderOrderId = (
   options?: SwaggerTypescriptUseQueryOptions<Order>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetStoreOrderOrderId.info(orderId, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetStoreOrderOrderId.info(
+    orderId,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetStoreOrderOrderId.info = (
   /** ID of order that needs to be fetched */
   orderId: number,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getStoreOrderOrderId.key, orderId] as QueryKey,
+    key: [
+      getStoreOrderOrderId.key,
+      orderId,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getStoreOrderOrderId(orderId, configOverride),
   };
 };
@@ -433,14 +494,19 @@ useGetStoreOrderOrderId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<Order>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetStoreOrderOrderId.info(orderId, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetStoreOrderOrderId.info(
+    orderId,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -450,20 +516,26 @@ export const useGetUserLogin = (
   options?: SwaggerTypescriptUseQueryOptions<string>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUserLogin.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUserLogin.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUserLogin.info = (
   queryParams?: GetUserLoginQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUserLogin.key, queryParams] as QueryKey,
+    key: [getUserLogin.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getUserLogin(queryParams, configOverride),
   };
 };
@@ -473,14 +545,19 @@ useGetUserLogin.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<string>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUserLogin.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUserLogin.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -489,17 +566,21 @@ export const useGetUserLogout = (
   options?: SwaggerTypescriptUseQueryOptions<any>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUserLogout.info(configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUserLogout.info(configOverride, extraQueryKey);
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
-useGetUserLogout.info = (configOverride?: AxiosRequestConfig) => {
+useGetUserLogout.info = (
+  configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
+) => {
   return {
-    key: [getUserLogout.key] as QueryKey,
+    key: [getUserLogout.key, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getUserLogout(configOverride),
   };
 };
@@ -508,14 +589,15 @@ useGetUserLogout.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<any>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUserLogout.info(configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUserLogout.info(configOverride, extraQueryKey);
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -526,21 +608,27 @@ export const useGetUserUsername = (
   options?: SwaggerTypescriptUseQueryOptions<User>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUserUsername.info(username, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUserUsername.info(
+    username,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUserUsername.info = (
   /** The name that needs to be fetched. Use user1 for testing */
   username: string,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUserUsername.key, username] as QueryKey,
+    key: [getUserUsername.key, username, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getUserUsername(username, configOverride),
   };
 };
@@ -552,14 +640,19 @@ useGetUserUsername.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<User>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUserUsername.info(username, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUserUsername.info(
+    username,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 

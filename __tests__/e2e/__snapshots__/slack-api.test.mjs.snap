@@ -452,10 +452,15 @@ export type SwaggerTypescriptMutationDefaultParams<TExtra> = {
   _extraVariables?: TExtra;
   configOverride?: AxiosRequestConfig;
 };
+type SwaggerTypescriptExtraQueryKey = {
+  /** Extra values appended to the end of the generated query key. */
+  extraQueryKey?: QueryKey;
+};
 type SwaggerTypescriptUseQueryOptions<TData> = Omit<
   UseQueryOptions<SwaggerResponse<TData>, RequestError | Error>,
   \\"queryKey\\"
->;
+> &
+  SwaggerTypescriptExtraQueryKey;
 
 type SwaggerTypescriptUseMutationOptions<TData, TRequest, TExtra> =
   UseMutationOptions<
@@ -463,28 +468,40 @@ type SwaggerTypescriptUseMutationOptions<TData, TRequest, TExtra> =
     RequestError | Error,
     TRequest & SwaggerTypescriptMutationDefaultParams<TExtra>
   >;
+
+type SwaggerTypescriptUseInfiniteQueryOptions<TData> = Partial<
+  UseInfiniteQueryOptions<SwaggerResponse<TData>, RequestError | Error>
+> &
+  SwaggerTypescriptExtraQueryKey;
 export const useGetAdminAppsApprovedList = (
   queryParams: GetAdminAppsApprovedListQueryParams,
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminAppsApprovedList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminAppsApprovedList.info = (
   queryParams: GetAdminAppsApprovedListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAdminAppsApprovedList.key, queryParams] as QueryKey,
+    key: [
+      getAdminAppsApprovedList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAdminAppsApprovedList(queryParams, configOverride),
   };
 };
@@ -494,9 +511,11 @@ useGetAdminAppsApprovedList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminAppsApprovedList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -504,7 +523,7 @@ useGetAdminAppsApprovedList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminAppsRequestsList = (
@@ -512,23 +531,30 @@ export const useGetAdminAppsRequestsList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminAppsRequestsList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminAppsRequestsList.info = (
   queryParams: GetAdminAppsRequestsListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAdminAppsRequestsList.key, queryParams] as QueryKey,
+    key: [
+      getAdminAppsRequestsList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAdminAppsRequestsList(queryParams, configOverride),
   };
 };
@@ -538,9 +564,11 @@ useGetAdminAppsRequestsList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminAppsRequestsList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -548,7 +576,7 @@ useGetAdminAppsRequestsList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminAppsRestrictedList = (
@@ -556,23 +584,30 @@ export const useGetAdminAppsRestrictedList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminAppsRestrictedList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminAppsRestrictedList.info = (
   queryParams: GetAdminAppsRestrictedListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAdminAppsRestrictedList.key, queryParams] as QueryKey,
+    key: [
+      getAdminAppsRestrictedList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAdminAppsRestrictedList(queryParams, configOverride),
   };
 };
@@ -582,9 +617,11 @@ useGetAdminAppsRestrictedList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminAppsRestrictedList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -592,7 +629,7 @@ useGetAdminAppsRestrictedList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminConversationsEkmListOriginalConnectedChannelInfo = (
@@ -600,26 +637,30 @@ export const useGetAdminConversationsEkmListOriginalConnectedChannelInfo = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } =
     useGetAdminConversationsEkmListOriginalConnectedChannelInfo.info(
       queryParams,
       configOverride,
+      extraQueryKey,
     );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminConversationsEkmListOriginalConnectedChannelInfo.info = (
   queryParams: GetAdminConversationsEkmListOriginalConnectedChannelInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAdminConversationsEkmListOriginalConnectedChannelInfo.key,
       queryParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAdminConversationsEkmListOriginalConnectedChannelInfo(
@@ -634,10 +675,12 @@ useGetAdminConversationsEkmListOriginalConnectedChannelInfo.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } =
     useGetAdminConversationsEkmListOriginalConnectedChannelInfo.info(
       queryParams,
       configOverride,
+      extraQueryKey,
     );
 
   return client.getQueryData(key)
@@ -645,7 +688,7 @@ useGetAdminConversationsEkmListOriginalConnectedChannelInfo.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminConversationsGetConversationPrefs = (
@@ -660,28 +703,32 @@ export const useGetAdminConversationsGetConversationPrefs = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminConversationsGetConversationPrefs.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminConversationsGetConversationPrefs.info = (
   queryParams: GetAdminConversationsGetConversationPrefsQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAdminConversationsGetConversationPrefs.key,
       queryParams,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAdminConversationsGetConversationPrefs(
@@ -704,10 +751,12 @@ useGetAdminConversationsGetConversationPrefs.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminConversationsGetConversationPrefs.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -715,7 +764,7 @@ useGetAdminConversationsGetConversationPrefs.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminConversationsGetTeams = (
@@ -728,28 +777,32 @@ export const useGetAdminConversationsGetTeams = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminConversationsGetTeams.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminConversationsGetTeams.info = (
   queryParams: GetAdminConversationsGetTeamsQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAdminConversationsGetTeams.key,
       queryParams,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAdminConversationsGetTeams(queryParams, headerParams, configOverride),
@@ -766,10 +819,12 @@ useGetAdminConversationsGetTeams.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminConversationsGetTeams.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -777,7 +832,7 @@ useGetAdminConversationsGetTeams.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminConversationsRestrictAccessListGroups = (
@@ -785,25 +840,29 @@ export const useGetAdminConversationsRestrictAccessListGroups = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminConversationsRestrictAccessListGroups.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminConversationsRestrictAccessListGroups.info = (
   queryParams: GetAdminConversationsRestrictAccessListGroupsQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAdminConversationsRestrictAccessListGroups.key,
       queryParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAdminConversationsRestrictAccessListGroups(
@@ -818,9 +877,11 @@ useGetAdminConversationsRestrictAccessListGroups.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminConversationsRestrictAccessListGroups.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -828,7 +889,7 @@ useGetAdminConversationsRestrictAccessListGroups.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminConversationsSearch = (
@@ -840,28 +901,32 @@ export const useGetAdminConversationsSearch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminConversationsSearch.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminConversationsSearch.info = (
   queryParams?: GetAdminConversationsSearchQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAdminConversationsSearch.key,
       queryParams,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAdminConversationsSearch(queryParams, headerParams, configOverride),
@@ -877,10 +942,12 @@ useGetAdminConversationsSearch.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminConversationsSearch.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -888,7 +955,7 @@ useGetAdminConversationsSearch.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminEmojiList = (
@@ -896,20 +963,30 @@ export const useGetAdminEmojiList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetAdminEmojiList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetAdminEmojiList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminEmojiList.info = (
   queryParams: GetAdminEmojiListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAdminEmojiList.key, queryParams] as QueryKey,
+    key: [
+      getAdminEmojiList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAdminEmojiList(queryParams, configOverride),
   };
 };
@@ -919,14 +996,19 @@ useGetAdminEmojiList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetAdminEmojiList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetAdminEmojiList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminInviteRequestsApprovedList = (
@@ -935,28 +1017,32 @@ export const useGetAdminInviteRequestsApprovedList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminInviteRequestsApprovedList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminInviteRequestsApprovedList.info = (
   queryParams?: GetAdminInviteRequestsApprovedListQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAdminInviteRequestsApprovedList.key,
       queryParams,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAdminInviteRequestsApprovedList(
@@ -973,10 +1059,12 @@ useGetAdminInviteRequestsApprovedList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminInviteRequestsApprovedList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -984,7 +1072,7 @@ useGetAdminInviteRequestsApprovedList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminInviteRequestsDeniedList = (
@@ -993,28 +1081,32 @@ export const useGetAdminInviteRequestsDeniedList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminInviteRequestsDeniedList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminInviteRequestsDeniedList.info = (
   queryParams?: GetAdminInviteRequestsDeniedListQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAdminInviteRequestsDeniedList.key,
       queryParams,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAdminInviteRequestsDeniedList(
@@ -1031,10 +1123,12 @@ useGetAdminInviteRequestsDeniedList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminInviteRequestsDeniedList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1042,7 +1136,7 @@ useGetAdminInviteRequestsDeniedList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminInviteRequestsList = (
@@ -1051,28 +1145,32 @@ export const useGetAdminInviteRequestsList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminInviteRequestsList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminInviteRequestsList.info = (
   queryParams?: GetAdminInviteRequestsListQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAdminInviteRequestsList.key,
       queryParams,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAdminInviteRequestsList(queryParams, headerParams, configOverride),
@@ -1085,10 +1183,12 @@ useGetAdminInviteRequestsList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminInviteRequestsList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1096,7 +1196,7 @@ useGetAdminInviteRequestsList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminTeamsAdminsList = (
@@ -1104,23 +1204,30 @@ export const useGetAdminTeamsAdminsList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminTeamsAdminsList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminTeamsAdminsList.info = (
   queryParams: GetAdminTeamsAdminsListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAdminTeamsAdminsList.key, queryParams] as QueryKey,
+    key: [
+      getAdminTeamsAdminsList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAdminTeamsAdminsList(queryParams, configOverride),
   };
 };
@@ -1130,9 +1237,11 @@ useGetAdminTeamsAdminsList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminTeamsAdminsList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1140,7 +1249,7 @@ useGetAdminTeamsAdminsList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminTeamsList = (
@@ -1149,25 +1258,33 @@ export const useGetAdminTeamsList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminTeamsList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminTeamsList.info = (
   queryParams?: GetAdminTeamsListQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAdminTeamsList.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getAdminTeamsList.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAdminTeamsList(queryParams, headerParams, configOverride),
   };
 };
@@ -1178,10 +1295,12 @@ useGetAdminTeamsList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminTeamsList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1189,7 +1308,7 @@ useGetAdminTeamsList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminTeamsOwnersList = (
@@ -1197,23 +1316,30 @@ export const useGetAdminTeamsOwnersList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminTeamsOwnersList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminTeamsOwnersList.info = (
   queryParams: GetAdminTeamsOwnersListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAdminTeamsOwnersList.key, queryParams] as QueryKey,
+    key: [
+      getAdminTeamsOwnersList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAdminTeamsOwnersList(queryParams, configOverride),
   };
 };
@@ -1223,9 +1349,11 @@ useGetAdminTeamsOwnersList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminTeamsOwnersList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1233,7 +1361,7 @@ useGetAdminTeamsOwnersList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminTeamsSettingsInfo = (
@@ -1242,25 +1370,33 @@ export const useGetAdminTeamsSettingsInfo = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminTeamsSettingsInfo.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminTeamsSettingsInfo.info = (
   queryParams: GetAdminTeamsSettingsInfoQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAdminTeamsSettingsInfo.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getAdminTeamsSettingsInfo.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () =>
       getAdminTeamsSettingsInfo(queryParams, headerParams, configOverride),
   };
@@ -1272,10 +1408,12 @@ useGetAdminTeamsSettingsInfo.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminTeamsSettingsInfo.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1283,7 +1421,7 @@ useGetAdminTeamsSettingsInfo.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminUsergroupsListChannels = (
@@ -1292,28 +1430,32 @@ export const useGetAdminUsergroupsListChannels = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminUsergroupsListChannels.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminUsergroupsListChannels.info = (
   queryParams: GetAdminUsergroupsListChannelsQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAdminUsergroupsListChannels.key,
       queryParams,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAdminUsergroupsListChannels(queryParams, headerParams, configOverride),
@@ -1326,10 +1468,12 @@ useGetAdminUsergroupsListChannels.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminUsergroupsListChannels.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1337,7 +1481,7 @@ useGetAdminUsergroupsListChannels.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAdminUsersList = (
@@ -1346,25 +1490,33 @@ export const useGetAdminUsersList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminUsersList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAdminUsersList.info = (
   queryParams: GetAdminUsersListQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAdminUsersList.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getAdminUsersList.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAdminUsersList(queryParams, headerParams, configOverride),
   };
 };
@@ -1375,10 +1527,12 @@ useGetAdminUsersList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAdminUsersList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1386,7 +1540,7 @@ useGetAdminUsersList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetApiTest = (
@@ -1394,20 +1548,26 @@ export const useGetApiTest = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetApiTest.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetApiTest.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetApiTest.info = (
   queryParams?: GetApiTestQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getApiTest.key, queryParams] as QueryKey,
+    key: [getApiTest.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getApiTest(queryParams, configOverride),
   };
 };
@@ -1417,14 +1577,19 @@ useGetApiTest.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetApiTest.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetApiTest.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAppsEventAuthorizationsList = (
@@ -1433,28 +1598,32 @@ export const useGetAppsEventAuthorizationsList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsEventAuthorizationsList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAppsEventAuthorizationsList.info = (
   queryParams: GetAppsEventAuthorizationsListQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getAppsEventAuthorizationsList.key,
       queryParams,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getAppsEventAuthorizationsList(queryParams, headerParams, configOverride),
@@ -1467,10 +1636,12 @@ useGetAppsEventAuthorizationsList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsEventAuthorizationsList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1478,7 +1649,7 @@ useGetAppsEventAuthorizationsList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAppsPermissionsInfo = (
@@ -1496,23 +1667,30 @@ export const useGetAppsPermissionsInfo = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsInfo.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAppsPermissionsInfo.info = (
   queryParams?: GetAppsPermissionsInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAppsPermissionsInfo.key, queryParams] as QueryKey,
+    key: [
+      getAppsPermissionsInfo.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAppsPermissionsInfo(queryParams, configOverride),
   };
 };
@@ -1532,9 +1710,11 @@ useGetAppsPermissionsInfo.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsInfo.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1542,7 +1722,7 @@ useGetAppsPermissionsInfo.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAppsPermissionsRequest = (
@@ -1550,23 +1730,30 @@ export const useGetAppsPermissionsRequest = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsRequest.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAppsPermissionsRequest.info = (
   queryParams: GetAppsPermissionsRequestQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAppsPermissionsRequest.key, queryParams] as QueryKey,
+    key: [
+      getAppsPermissionsRequest.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAppsPermissionsRequest(queryParams, configOverride),
   };
 };
@@ -1576,9 +1763,11 @@ useGetAppsPermissionsRequest.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsRequest.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1586,7 +1775,7 @@ useGetAppsPermissionsRequest.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAppsPermissionsResourcesList = (
@@ -1603,23 +1792,30 @@ export const useGetAppsPermissionsResourcesList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsResourcesList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAppsPermissionsResourcesList.info = (
   queryParams: GetAppsPermissionsResourcesListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAppsPermissionsResourcesList.key, queryParams] as QueryKey,
+    key: [
+      getAppsPermissionsResourcesList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAppsPermissionsResourcesList(queryParams, configOverride),
   };
 };
@@ -1638,9 +1834,11 @@ useGetAppsPermissionsResourcesList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsResourcesList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1648,7 +1846,7 @@ useGetAppsPermissionsResourcesList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAppsPermissionsScopesList = (
@@ -1667,23 +1865,30 @@ export const useGetAppsPermissionsScopesList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsScopesList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAppsPermissionsScopesList.info = (
   queryParams: GetAppsPermissionsScopesListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAppsPermissionsScopesList.key, queryParams] as QueryKey,
+    key: [
+      getAppsPermissionsScopesList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAppsPermissionsScopesList(queryParams, configOverride),
   };
 };
@@ -1704,9 +1909,11 @@ useGetAppsPermissionsScopesList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsScopesList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1714,7 +1921,7 @@ useGetAppsPermissionsScopesList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAppsPermissionsUsersList = (
@@ -1722,23 +1929,30 @@ export const useGetAppsPermissionsUsersList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsUsersList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAppsPermissionsUsersList.info = (
   queryParams: GetAppsPermissionsUsersListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAppsPermissionsUsersList.key, queryParams] as QueryKey,
+    key: [
+      getAppsPermissionsUsersList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAppsPermissionsUsersList(queryParams, configOverride),
   };
 };
@@ -1748,9 +1962,11 @@ useGetAppsPermissionsUsersList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsUsersList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1758,7 +1974,7 @@ useGetAppsPermissionsUsersList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAppsPermissionsUsersRequest = (
@@ -1766,23 +1982,30 @@ export const useGetAppsPermissionsUsersRequest = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsUsersRequest.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAppsPermissionsUsersRequest.info = (
   queryParams: GetAppsPermissionsUsersRequestQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAppsPermissionsUsersRequest.key, queryParams] as QueryKey,
+    key: [
+      getAppsPermissionsUsersRequest.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAppsPermissionsUsersRequest(queryParams, configOverride),
   };
 };
@@ -1792,9 +2015,11 @@ useGetAppsPermissionsUsersRequest.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetAppsPermissionsUsersRequest.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1802,7 +2027,7 @@ useGetAppsPermissionsUsersRequest.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAppsUninstall = (
@@ -1810,20 +2035,30 @@ export const useGetAppsUninstall = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetAppsUninstall.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetAppsUninstall.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAppsUninstall.info = (
   queryParams?: GetAppsUninstallQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAppsUninstall.key, queryParams] as QueryKey,
+    key: [
+      getAppsUninstall.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getAppsUninstall(queryParams, configOverride),
   };
 };
@@ -1833,14 +2068,19 @@ useGetAppsUninstall.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetAppsUninstall.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetAppsUninstall.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAuthRevoke = (
@@ -1851,20 +2091,26 @@ export const useGetAuthRevoke = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetAuthRevoke.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetAuthRevoke.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAuthRevoke.info = (
   queryParams: GetAuthRevokeQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAuthRevoke.key, queryParams] as QueryKey,
+    key: [getAuthRevoke.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getAuthRevoke(queryParams, configOverride),
   };
 };
@@ -1877,14 +2123,19 @@ useGetAuthRevoke.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetAuthRevoke.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetAuthRevoke.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetAuthTest = (
@@ -1901,20 +2152,26 @@ export const useGetAuthTest = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetAuthTest.info(headerParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetAuthTest.info(
+    headerParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetAuthTest.info = (
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getAuthTest.key, headerParams] as QueryKey,
+    key: [getAuthTest.key, headerParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getAuthTest(headerParams, configOverride),
   };
 };
@@ -1933,14 +2190,19 @@ useGetAuthTest.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetAuthTest.info(headerParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetAuthTest.info(
+    headerParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetBotsInfo = (
@@ -1966,20 +2228,26 @@ export const useGetBotsInfo = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetBotsInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetBotsInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetBotsInfo.info = (
   queryParams: GetBotsInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getBotsInfo.key, queryParams] as QueryKey,
+    key: [getBotsInfo.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getBotsInfo(queryParams, configOverride),
   };
 };
@@ -2007,14 +2275,19 @@ useGetBotsInfo.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetBotsInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetBotsInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetCallsInfo = (
@@ -2023,25 +2296,33 @@ export const useGetCallsInfo = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetCallsInfo.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetCallsInfo.info = (
   queryParams: GetCallsInfoQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getCallsInfo.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getCallsInfo.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getCallsInfo(queryParams, headerParams, configOverride),
   };
 };
@@ -2052,10 +2333,12 @@ useGetCallsInfo.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetCallsInfo.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -2063,7 +2346,7 @@ useGetCallsInfo.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetChatGetPermalink = (
@@ -2076,20 +2359,30 @@ export const useGetChatGetPermalink = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetChatGetPermalink.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetChatGetPermalink.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetChatGetPermalink.info = (
   queryParams: GetChatGetPermalinkQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getChatGetPermalink.key, queryParams] as QueryKey,
+    key: [
+      getChatGetPermalink.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getChatGetPermalink(queryParams, configOverride),
   };
 };
@@ -2104,14 +2397,19 @@ useGetChatGetPermalink.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetChatGetPermalink.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetChatGetPermalink.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetChatScheduledMessagesList = (
@@ -2133,28 +2431,32 @@ export const useGetChatScheduledMessagesList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetChatScheduledMessagesList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetChatScheduledMessagesList.info = (
   queryParams?: GetChatScheduledMessagesListQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       getChatScheduledMessagesList.key,
       queryParams,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       getChatScheduledMessagesList(queryParams, headerParams, configOverride),
@@ -2180,10 +2482,12 @@ useGetChatScheduledMessagesList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetChatScheduledMessagesList.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -2191,7 +2495,7 @@ useGetChatScheduledMessagesList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetConversationsHistory = (
@@ -2206,23 +2510,30 @@ export const useGetConversationsHistory = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsHistory.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetConversationsHistory.info = (
   queryParams?: GetConversationsHistoryQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getConversationsHistory.key, queryParams] as QueryKey,
+    key: [
+      getConversationsHistory.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getConversationsHistory(queryParams, configOverride),
   };
 };
@@ -2239,9 +2550,11 @@ useGetConversationsHistory.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsHistory.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -2249,7 +2562,7 @@ useGetConversationsHistory.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetConversationsInfo = (
@@ -2260,23 +2573,30 @@ export const useGetConversationsInfo = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsInfo.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetConversationsInfo.info = (
   queryParams?: GetConversationsInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getConversationsInfo.key, queryParams] as QueryKey,
+    key: [
+      getConversationsInfo.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getConversationsInfo(queryParams, configOverride),
   };
 };
@@ -2289,9 +2609,11 @@ useGetConversationsInfo.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsInfo.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -2299,7 +2621,7 @@ useGetConversationsInfo.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetConversationsList = (
@@ -2311,23 +2633,30 @@ export const useGetConversationsList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetConversationsList.info = (
   queryParams?: GetConversationsListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getConversationsList.key, queryParams] as QueryKey,
+    key: [
+      getConversationsList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getConversationsList(queryParams, configOverride),
   };
 };
@@ -2341,9 +2670,11 @@ useGetConversationsList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -2351,7 +2682,7 @@ useGetConversationsList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetConversationsMembers = (
@@ -2363,23 +2694,30 @@ export const useGetConversationsMembers = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsMembers.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetConversationsMembers.info = (
   queryParams?: GetConversationsMembersQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getConversationsMembers.key, queryParams] as QueryKey,
+    key: [
+      getConversationsMembers.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getConversationsMembers(queryParams, configOverride),
   };
 };
@@ -2393,9 +2731,11 @@ useGetConversationsMembers.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsMembers.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -2403,7 +2743,7 @@ useGetConversationsMembers.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetConversationsReplies = (
@@ -2447,23 +2787,30 @@ export const useGetConversationsReplies = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsReplies.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetConversationsReplies.info = (
   queryParams?: GetConversationsRepliesQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getConversationsReplies.key, queryParams] as QueryKey,
+    key: [
+      getConversationsReplies.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getConversationsReplies(queryParams, configOverride),
   };
 };
@@ -2509,9 +2856,11 @@ useGetConversationsReplies.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetConversationsReplies.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -2519,7 +2868,7 @@ useGetConversationsReplies.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetDialogOpen = (
@@ -2528,25 +2877,33 @@ export const useGetDialogOpen = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetDialogOpen.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetDialogOpen.info = (
   queryParams: GetDialogOpenQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getDialogOpen.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getDialogOpen.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getDialogOpen(queryParams, headerParams, configOverride),
   };
 };
@@ -2557,10 +2914,12 @@ useGetDialogOpen.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetDialogOpen.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -2568,7 +2927,7 @@ useGetDialogOpen.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetDndInfo = (
@@ -2584,20 +2943,26 @@ export const useGetDndInfo = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetDndInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetDndInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetDndInfo.info = (
   queryParams?: GetDndInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getDndInfo.key, queryParams] as QueryKey,
+    key: [getDndInfo.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getDndInfo(queryParams, configOverride),
   };
 };
@@ -2615,14 +2980,19 @@ useGetDndInfo.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetDndInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetDndInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetDndTeamInfo = (
@@ -2630,20 +3000,30 @@ export const useGetDndTeamInfo = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetDndTeamInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetDndTeamInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetDndTeamInfo.info = (
   queryParams?: GetDndTeamInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getDndTeamInfo.key, queryParams] as QueryKey,
+    key: [
+      getDndTeamInfo.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getDndTeamInfo(queryParams, configOverride),
   };
 };
@@ -2653,14 +3033,19 @@ useGetDndTeamInfo.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetDndTeamInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetDndTeamInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetEmojiList = (
@@ -2668,20 +3053,26 @@ export const useGetEmojiList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetEmojiList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetEmojiList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetEmojiList.info = (
   queryParams: GetEmojiListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getEmojiList.key, queryParams] as QueryKey,
+    key: [getEmojiList.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getEmojiList(queryParams, configOverride),
   };
 };
@@ -2691,14 +3082,19 @@ useGetEmojiList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetEmojiList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetEmojiList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetFilesInfo = (
@@ -2714,20 +3110,26 @@ export const useGetFilesInfo = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetFilesInfo.info = (
   queryParams?: GetFilesInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getFilesInfo.key, queryParams] as QueryKey,
+    key: [getFilesInfo.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getFilesInfo(queryParams, configOverride),
   };
 };
@@ -2745,14 +3147,19 @@ useGetFilesInfo.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetFilesList = (
@@ -2764,20 +3171,26 @@ export const useGetFilesList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetFilesList.info = (
   queryParams?: GetFilesListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getFilesList.key, queryParams] as QueryKey,
+    key: [getFilesList.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getFilesList(queryParams, configOverride),
   };
 };
@@ -2791,14 +3204,19 @@ useGetFilesList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetFilesRemoteInfo = (
@@ -2806,20 +3224,30 @@ export const useGetFilesRemoteInfo = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesRemoteInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesRemoteInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetFilesRemoteInfo.info = (
   queryParams?: GetFilesRemoteInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getFilesRemoteInfo.key, queryParams] as QueryKey,
+    key: [
+      getFilesRemoteInfo.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getFilesRemoteInfo(queryParams, configOverride),
   };
 };
@@ -2829,14 +3257,19 @@ useGetFilesRemoteInfo.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesRemoteInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesRemoteInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetFilesRemoteList = (
@@ -2844,20 +3277,30 @@ export const useGetFilesRemoteList = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesRemoteList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesRemoteList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetFilesRemoteList.info = (
   queryParams?: GetFilesRemoteListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getFilesRemoteList.key, queryParams] as QueryKey,
+    key: [
+      getFilesRemoteList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getFilesRemoteList(queryParams, configOverride),
   };
 };
@@ -2867,14 +3310,19 @@ useGetFilesRemoteList.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesRemoteList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesRemoteList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetFilesRemoteShare = (
@@ -2882,20 +3330,30 @@ export const useGetFilesRemoteShare = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesRemoteShare.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesRemoteShare.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetFilesRemoteShare.info = (
   queryParams?: GetFilesRemoteShareQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getFilesRemoteShare.key, queryParams] as QueryKey,
+    key: [
+      getFilesRemoteShare.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getFilesRemoteShare(queryParams, configOverride),
   };
 };
@@ -2905,14 +3363,19 @@ useGetFilesRemoteShare.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetFilesRemoteShare.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetFilesRemoteShare.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetMigrationExchange = (
@@ -2929,23 +3392,30 @@ export const useGetMigrationExchange = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetMigrationExchange.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetMigrationExchange.info = (
   queryParams: GetMigrationExchangeQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getMigrationExchange.key, queryParams] as QueryKey,
+    key: [
+      getMigrationExchange.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getMigrationExchange(queryParams, configOverride),
   };
 };
@@ -2964,9 +3434,11 @@ useGetMigrationExchange.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetMigrationExchange.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -2974,7 +3446,7 @@ useGetMigrationExchange.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetOauthAccess = (
@@ -2982,20 +3454,30 @@ export const useGetOauthAccess = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetOauthAccess.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetOauthAccess.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetOauthAccess.info = (
   queryParams?: GetOauthAccessQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getOauthAccess.key, queryParams] as QueryKey,
+    key: [
+      getOauthAccess.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getOauthAccess(queryParams, configOverride),
   };
 };
@@ -3005,14 +3487,19 @@ useGetOauthAccess.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetOauthAccess.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetOauthAccess.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetOauthToken = (
@@ -3020,20 +3507,26 @@ export const useGetOauthToken = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetOauthToken.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetOauthToken.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetOauthToken.info = (
   queryParams?: GetOauthTokenQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getOauthToken.key, queryParams] as QueryKey,
+    key: [getOauthToken.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getOauthToken(queryParams, configOverride),
   };
 };
@@ -3043,14 +3536,19 @@ useGetOauthToken.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetOauthToken.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetOauthToken.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetOauthV2Access = (
@@ -3058,20 +3556,30 @@ export const useGetOauthV2Access = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetOauthV2Access.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetOauthV2Access.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetOauthV2Access.info = (
   queryParams: GetOauthV2AccessQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getOauthV2Access.key, queryParams] as QueryKey,
+    key: [
+      getOauthV2Access.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getOauthV2Access(queryParams, configOverride),
   };
 };
@@ -3081,14 +3589,19 @@ useGetOauthV2Access.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetOauthV2Access.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetOauthV2Access.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetPinsList = (
@@ -3118,20 +3631,26 @@ export const useGetPinsList = (
   >,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPinsList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPinsList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetPinsList.info = (
   queryParams: GetPinsListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getPinsList.key, queryParams] as QueryKey,
+    key: [getPinsList.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getPinsList(queryParams, configOverride),
   };
 };
@@ -3163,14 +3682,19 @@ useGetPinsList.prefetch = (
   >,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPinsList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPinsList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetReactionsGet = (
@@ -3194,20 +3718,30 @@ export const useGetReactionsGet = (
   >,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetReactionsGet.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetReactionsGet.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetReactionsGet.info = (
   queryParams: GetReactionsGetQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getReactionsGet.key, queryParams] as QueryKey,
+    key: [
+      getReactionsGet.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getReactionsGet(queryParams, configOverride),
   };
 };
@@ -3233,14 +3767,19 @@ useGetReactionsGet.prefetch = (
   >,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetReactionsGet.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetReactionsGet.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetReactionsList = (
@@ -3257,20 +3796,30 @@ export const useGetReactionsList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetReactionsList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetReactionsList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetReactionsList.info = (
   queryParams: GetReactionsListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getReactionsList.key, queryParams] as QueryKey,
+    key: [
+      getReactionsList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getReactionsList(queryParams, configOverride),
   };
 };
@@ -3289,14 +3838,19 @@ useGetReactionsList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetReactionsList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetReactionsList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetRemindersInfo = (
@@ -3307,20 +3861,30 @@ export const useGetRemindersInfo = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetRemindersInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetRemindersInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetRemindersInfo.info = (
   queryParams?: GetRemindersInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getRemindersInfo.key, queryParams] as QueryKey,
+    key: [
+      getRemindersInfo.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getRemindersInfo(queryParams, configOverride),
   };
 };
@@ -3333,14 +3897,19 @@ useGetRemindersInfo.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetRemindersInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetRemindersInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetRemindersList = (
@@ -3351,20 +3920,30 @@ export const useGetRemindersList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetRemindersList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetRemindersList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetRemindersList.info = (
   queryParams?: GetRemindersListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getRemindersList.key, queryParams] as QueryKey,
+    key: [
+      getRemindersList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getRemindersList(queryParams, configOverride),
   };
 };
@@ -3377,14 +3956,19 @@ useGetRemindersList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetRemindersList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetRemindersList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetRtmConnect = (
@@ -3398,20 +3982,26 @@ export const useGetRtmConnect = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetRtmConnect.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetRtmConnect.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetRtmConnect.info = (
   queryParams: GetRtmConnectQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getRtmConnect.key, queryParams] as QueryKey,
+    key: [getRtmConnect.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getRtmConnect(queryParams, configOverride),
   };
 };
@@ -3427,14 +4017,19 @@ useGetRtmConnect.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetRtmConnect.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetRtmConnect.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetSearchMessages = (
@@ -3442,20 +4037,30 @@ export const useGetSearchMessages = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetSearchMessages.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetSearchMessages.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetSearchMessages.info = (
   queryParams: GetSearchMessagesQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getSearchMessages.key, queryParams] as QueryKey,
+    key: [
+      getSearchMessages.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getSearchMessages(queryParams, configOverride),
   };
 };
@@ -3465,14 +4070,19 @@ useGetSearchMessages.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetSearchMessages.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetSearchMessages.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetStarsList = (
@@ -3501,20 +4111,26 @@ export const useGetStarsList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetStarsList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetStarsList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetStarsList.info = (
   queryParams?: GetStarsListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getStarsList.key, queryParams] as QueryKey,
+    key: [getStarsList.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getStarsList(queryParams, configOverride),
   };
 };
@@ -3545,14 +4161,19 @@ useGetStarsList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetStarsList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetStarsList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetTeamAccessLogs = (
@@ -3575,20 +4196,30 @@ export const useGetTeamAccessLogs = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetTeamAccessLogs.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetTeamAccessLogs.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetTeamAccessLogs.info = (
   queryParams: GetTeamAccessLogsQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getTeamAccessLogs.key, queryParams] as QueryKey,
+    key: [
+      getTeamAccessLogs.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getTeamAccessLogs(queryParams, configOverride),
   };
 };
@@ -3613,14 +4244,19 @@ useGetTeamAccessLogs.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetTeamAccessLogs.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetTeamAccessLogs.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetTeamBillableInfo = (
@@ -3628,20 +4264,30 @@ export const useGetTeamBillableInfo = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetTeamBillableInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetTeamBillableInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetTeamBillableInfo.info = (
   queryParams: GetTeamBillableInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getTeamBillableInfo.key, queryParams] as QueryKey,
+    key: [
+      getTeamBillableInfo.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getTeamBillableInfo(queryParams, configOverride),
   };
 };
@@ -3651,14 +4297,19 @@ useGetTeamBillableInfo.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetTeamBillableInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetTeamBillableInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetTeamInfo = (
@@ -3669,20 +4320,26 @@ export const useGetTeamInfo = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetTeamInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetTeamInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetTeamInfo.info = (
   queryParams: GetTeamInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getTeamInfo.key, queryParams] as QueryKey,
+    key: [getTeamInfo.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getTeamInfo(queryParams, configOverride),
   };
 };
@@ -3695,14 +4352,19 @@ useGetTeamInfo.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetTeamInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetTeamInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetTeamIntegrationLogs = (
@@ -3726,23 +4388,30 @@ export const useGetTeamIntegrationLogs = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetTeamIntegrationLogs.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetTeamIntegrationLogs.info = (
   queryParams: GetTeamIntegrationLogsQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getTeamIntegrationLogs.key, queryParams] as QueryKey,
+    key: [
+      getTeamIntegrationLogs.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getTeamIntegrationLogs(queryParams, configOverride),
   };
 };
@@ -3768,9 +4437,11 @@ useGetTeamIntegrationLogs.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetTeamIntegrationLogs.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -3778,7 +4449,7 @@ useGetTeamIntegrationLogs.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetTeamProfileGet = (
@@ -3789,20 +4460,30 @@ export const useGetTeamProfileGet = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetTeamProfileGet.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetTeamProfileGet.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetTeamProfileGet.info = (
   queryParams: GetTeamProfileGetQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getTeamProfileGet.key, queryParams] as QueryKey,
+    key: [
+      getTeamProfileGet.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getTeamProfileGet(queryParams, configOverride),
   };
 };
@@ -3815,14 +4496,19 @@ useGetTeamProfileGet.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetTeamProfileGet.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetTeamProfileGet.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUsergroupsList = (
@@ -3833,20 +4519,30 @@ export const useGetUsergroupsList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsergroupsList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsergroupsList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUsergroupsList.info = (
   queryParams: GetUsergroupsListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUsergroupsList.key, queryParams] as QueryKey,
+    key: [
+      getUsergroupsList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getUsergroupsList(queryParams, configOverride),
   };
 };
@@ -3859,14 +4555,19 @@ useGetUsergroupsList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsergroupsList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsergroupsList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUsergroupsUsersList = (
@@ -3877,23 +4578,30 @@ export const useGetUsergroupsUsersList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUsergroupsUsersList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUsergroupsUsersList.info = (
   queryParams: GetUsergroupsUsersListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUsergroupsUsersList.key, queryParams] as QueryKey,
+    key: [
+      getUsergroupsUsersList.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getUsergroupsUsersList(queryParams, configOverride),
   };
 };
@@ -3906,9 +4614,11 @@ useGetUsergroupsUsersList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUsergroupsUsersList.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -3916,7 +4626,7 @@ useGetUsergroupsUsersList.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUsersConversations = (
@@ -3928,23 +4638,30 @@ export const useGetUsersConversations = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUsersConversations.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUsersConversations.info = (
   queryParams?: GetUsersConversationsQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUsersConversations.key, queryParams] as QueryKey,
+    key: [
+      getUsersConversations.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getUsersConversations(queryParams, configOverride),
   };
 };
@@ -3958,9 +4675,11 @@ useGetUsersConversations.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUsersConversations.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -3968,7 +4687,7 @@ useGetUsersConversations.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUsersGetPresence = (
@@ -3984,20 +4703,30 @@ export const useGetUsersGetPresence = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersGetPresence.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersGetPresence.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUsersGetPresence.info = (
   queryParams: GetUsersGetPresenceQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUsersGetPresence.key, queryParams] as QueryKey,
+    key: [
+      getUsersGetPresence.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getUsersGetPresence(queryParams, configOverride),
   };
 };
@@ -4015,14 +4744,19 @@ useGetUsersGetPresence.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersGetPresence.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersGetPresence.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUsersIdentity = (
@@ -4092,20 +4826,30 @@ export const useGetUsersIdentity = (
   >,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersIdentity.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersIdentity.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUsersIdentity.info = (
   queryParams?: GetUsersIdentityQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUsersIdentity.key, queryParams] as QueryKey,
+    key: [
+      getUsersIdentity.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getUsersIdentity(queryParams, configOverride),
   };
 };
@@ -4177,14 +4921,19 @@ useGetUsersIdentity.prefetch = (
   >,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersIdentity.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersIdentity.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUsersInfo = (
@@ -4195,20 +4944,26 @@ export const useGetUsersInfo = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUsersInfo.info = (
   queryParams: GetUsersInfoQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUsersInfo.key, queryParams] as QueryKey,
+    key: [getUsersInfo.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getUsersInfo(queryParams, configOverride),
   };
 };
@@ -4221,14 +4976,19 @@ useGetUsersInfo.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersInfo.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersInfo.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUsersList = (
@@ -4241,20 +5001,26 @@ export const useGetUsersList = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUsersList.info = (
   queryParams?: GetUsersListQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUsersList.key, queryParams] as QueryKey,
+    key: [getUsersList.key, queryParams, ...(extraQueryKey || [])] as QueryKey,
     fun: () => getUsersList(queryParams, configOverride),
   };
 };
@@ -4269,14 +5035,19 @@ useGetUsersList.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersList.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersList.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUsersLookupByEmail = (
@@ -4287,23 +5058,30 @@ export const useGetUsersLookupByEmail = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUsersLookupByEmail.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUsersLookupByEmail.info = (
   queryParams: GetUsersLookupByEmailQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUsersLookupByEmail.key, queryParams] as QueryKey,
+    key: [
+      getUsersLookupByEmail.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getUsersLookupByEmail(queryParams, configOverride),
   };
 };
@@ -4316,9 +5094,11 @@ useGetUsersLookupByEmail.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUsersLookupByEmail.info(
     queryParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -4326,7 +5106,7 @@ useGetUsersLookupByEmail.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUsersProfileGet = (
@@ -4337,20 +5117,30 @@ export const useGetUsersProfileGet = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersProfileGet.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersProfileGet.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUsersProfileGet.info = (
   queryParams: GetUsersProfileGetQueryParams,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUsersProfileGet.key, queryParams] as QueryKey,
+    key: [
+      getUsersProfileGet.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getUsersProfileGet(queryParams, configOverride),
   };
 };
@@ -4363,14 +5153,19 @@ useGetUsersProfileGet.prefetch = (
   }>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetUsersProfileGet.info(queryParams, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUsersProfileGet.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetViewsOpen = (
@@ -4379,25 +5174,33 @@ export const useGetViewsOpen = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetViewsOpen.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetViewsOpen.info = (
   queryParams: GetViewsOpenQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getViewsOpen.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getViewsOpen.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getViewsOpen(queryParams, headerParams, configOverride),
   };
 };
@@ -4408,10 +5211,12 @@ useGetViewsOpen.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetViewsOpen.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -4419,7 +5224,7 @@ useGetViewsOpen.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetViewsPublish = (
@@ -4428,25 +5233,33 @@ export const useGetViewsPublish = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetViewsPublish.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetViewsPublish.info = (
   queryParams: GetViewsPublishQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getViewsPublish.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getViewsPublish.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getViewsPublish(queryParams, headerParams, configOverride),
   };
 };
@@ -4457,10 +5270,12 @@ useGetViewsPublish.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetViewsPublish.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -4468,7 +5283,7 @@ useGetViewsPublish.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetViewsPush = (
@@ -4477,25 +5292,33 @@ export const useGetViewsPush = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetViewsPush.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetViewsPush.info = (
   queryParams: GetViewsPushQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getViewsPush.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getViewsPush.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getViewsPush(queryParams, headerParams, configOverride),
   };
 };
@@ -4506,10 +5329,12 @@ useGetViewsPush.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetViewsPush.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -4517,7 +5342,7 @@ useGetViewsPush.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetViewsUpdate = (
@@ -4526,25 +5351,33 @@ export const useGetViewsUpdate = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetViewsUpdate.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetViewsUpdate.info = (
   queryParams?: GetViewsUpdateQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getViewsUpdate.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getViewsUpdate.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getViewsUpdate(queryParams, headerParams, configOverride),
   };
 };
@@ -4555,10 +5388,12 @@ useGetViewsUpdate.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetViewsUpdate.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -4566,7 +5401,7 @@ useGetViewsUpdate.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetWorkflowsStepCompleted = (
@@ -4575,25 +5410,33 @@ export const useGetWorkflowsStepCompleted = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetWorkflowsStepCompleted.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetWorkflowsStepCompleted.info = (
   queryParams: GetWorkflowsStepCompletedQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getWorkflowsStepCompleted.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getWorkflowsStepCompleted.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () =>
       getWorkflowsStepCompleted(queryParams, headerParams, configOverride),
   };
@@ -4605,10 +5448,12 @@ useGetWorkflowsStepCompleted.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetWorkflowsStepCompleted.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -4616,7 +5461,7 @@ useGetWorkflowsStepCompleted.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetWorkflowsStepFailed = (
@@ -4625,25 +5470,33 @@ export const useGetWorkflowsStepFailed = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetWorkflowsStepFailed.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetWorkflowsStepFailed.info = (
   queryParams: GetWorkflowsStepFailedQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getWorkflowsStepFailed.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getWorkflowsStepFailed.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () =>
       getWorkflowsStepFailed(queryParams, headerParams, configOverride),
   };
@@ -4655,10 +5508,12 @@ useGetWorkflowsStepFailed.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetWorkflowsStepFailed.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -4666,7 +5521,7 @@ useGetWorkflowsStepFailed.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetWorkflowsUpdateStep = (
@@ -4675,25 +5530,33 @@ export const useGetWorkflowsUpdateStep = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetWorkflowsUpdateStep.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetWorkflowsUpdateStep.info = (
   queryParams: GetWorkflowsUpdateStepQueryParams,
   headerParams?: { token: string },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getWorkflowsUpdateStep.key, queryParams, headerParams] as QueryKey,
+    key: [
+      getWorkflowsUpdateStep.key,
+      queryParams,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () =>
       getWorkflowsUpdateStep(queryParams, headerParams, configOverride),
   };
@@ -4705,10 +5568,12 @@ useGetWorkflowsUpdateStep.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<{ ok: Defs_ok_true }>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetWorkflowsUpdateStep.info(
     queryParams,
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -4716,7 +5581,7 @@ useGetWorkflowsUpdateStep.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const usePostAdminAppsApprove = <TExtra,>(

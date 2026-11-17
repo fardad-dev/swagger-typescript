@@ -123,6 +123,21 @@ The config.ts file automatically will be created after first run. You could chan
 
   baseConfig used for get static configs and headers. if you need some dynamic configs like add authentication to headers use `requestConfig.headers.authorization` into of `axiosInstance.interceptors.request.use` function.
 
+## Extra query key
+
+Query hooks build their react-query key from the endpoint and its params. To add your own values to that key (for example a tenant id, or something you pass through `configOverride`), use `extraQueryKey`. The values are appended to the end of the generated key.
+
+```ts
+// key: [getPets.key, queryParams, "tenant-1"]
+const { data } = useGetPets(queryParams, { extraQueryKey: ["tenant-1"] });
+
+// same key outside of a component
+const { key } = useGetPets.info(queryParams, undefined, ["tenant-1"]);
+await useGetPets.prefetch(queryClient, queryParams, {
+  extraQueryKey: ["tenant-1"],
+});
+```
+
 ## Run by node
 
 ```js

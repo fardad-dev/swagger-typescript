@@ -629,10 +629,15 @@ export type SwaggerTypescriptMutationDefaultParams<TExtra> = {
   _extraVariables?: TExtra;
   configOverride?: AxiosRequestConfig;
 };
+type SwaggerTypescriptExtraQueryKey = {
+  /** Extra values appended to the end of the generated query key. */
+  extraQueryKey?: QueryKey;
+};
 type SwaggerTypescriptUseQueryOptions<TData> = Omit<
   UseQueryOptions<SwaggerResponse<TData>, RequestError | Error>,
   \\"queryKey\\"
->;
+> &
+  SwaggerTypescriptExtraQueryKey;
 
 type SwaggerTypescriptUseMutationOptions<TData, TRequest, TExtra> =
   UseMutationOptions<
@@ -751,24 +756,31 @@ export const useGetBusinessUserConnectionConnectionId = (
   options?: SwaggerTypescriptUseQueryOptions<SubUserConnectionApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetBusinessUserConnectionConnectionId.info(
     connectionId,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetBusinessUserConnectionConnectionId.info = (
   /** Connection Id */
   connectionId: number,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getBusinessUserConnectionConnectionId.key, connectionId] as QueryKey,
+    key: [
+      getBusinessUserConnectionConnectionId.key,
+      connectionId,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () =>
       getBusinessUserConnectionConnectionId(connectionId, configOverride),
   };
@@ -781,9 +793,11 @@ useGetBusinessUserConnectionConnectionId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<SubUserConnectionApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetBusinessUserConnectionConnectionId.info(
     connectionId,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -791,7 +805,7 @@ useGetBusinessUserConnectionConnectionId.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -802,21 +816,31 @@ export const useGetEpayRequestEpayId = (
   options?: SwaggerTypescriptUseQueryOptions<EpayRequestDetailApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetEpayRequestEpayId.info(epayId, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetEpayRequestEpayId.info(
+    epayId,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetEpayRequestEpayId.info = (
   /** EpayRequest's Id */
   epayId: number,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getEpayRequestEpayId.key, epayId] as QueryKey,
+    key: [
+      getEpayRequestEpayId.key,
+      epayId,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getEpayRequestEpayId(epayId, configOverride),
   };
 };
@@ -828,14 +852,19 @@ useGetEpayRequestEpayId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<EpayRequestDetailApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetEpayRequestEpayId.info(epayId, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetEpayRequestEpayId.info(
+    epayId,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetPluginPluginId = (
@@ -843,20 +872,30 @@ export const useGetPluginPluginId = (
   options?: SwaggerTypescriptUseQueryOptions<PluginApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPluginPluginId.info(pluginId, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPluginPluginId.info(
+    pluginId,
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetPluginPluginId.info = (
   pluginId: number,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getPluginPluginId.key, pluginId] as QueryKey,
+    key: [
+      getPluginPluginId.key,
+      pluginId,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getPluginPluginId(pluginId, configOverride),
   };
 };
@@ -866,14 +905,19 @@ useGetPluginPluginId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<PluginApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGetPluginPluginId.info(pluginId, configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetPluginPluginId.info(
+    pluginId,
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -884,24 +928,31 @@ export const useGetReceiptBankEpayTryId = (
   options?: SwaggerTypescriptUseQueryOptions<BankReceiptApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetReceiptBankEpayTryId.info(
     epayTryId,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetReceiptBankEpayTryId.info = (
   /** EpayTry's id to get receipt for */
   epayTryId: string,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getReceiptBankEpayTryId.key, epayTryId] as QueryKey,
+    key: [
+      getReceiptBankEpayTryId.key,
+      epayTryId,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getReceiptBankEpayTryId(epayTryId, configOverride),
   };
 };
@@ -913,9 +964,11 @@ useGetReceiptBankEpayTryId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<BankReceiptApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetReceiptBankEpayTryId.info(
     epayTryId,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -923,7 +976,7 @@ useGetReceiptBankEpayTryId.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -933,23 +986,30 @@ export const useGetSubUserAccountUserWalletId = (
   options?: SwaggerTypescriptUseQueryOptions<SubUserAccountDetailQuery>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetSubUserAccountUserWalletId.info(
     userWalletId,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetSubUserAccountUserWalletId.info = (
   userWalletId: number,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getSubUserAccountUserWalletId.key, userWalletId] as QueryKey,
+    key: [
+      getSubUserAccountUserWalletId.key,
+      userWalletId,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getSubUserAccountUserWalletId(userWalletId, configOverride),
   };
 };
@@ -959,9 +1019,11 @@ useGetSubUserAccountUserWalletId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<SubUserAccountDetailQuery>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetSubUserAccountUserWalletId.info(
     userWalletId,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -969,7 +1031,7 @@ useGetSubUserAccountUserWalletId.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -979,23 +1041,30 @@ export const useGetTransactionTransactionId = (
   options?: SwaggerTypescriptUseQueryOptions<TransactionApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetTransactionTransactionId.info(
     transactionId,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetTransactionTransactionId.info = (
   transactionId: number,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getTransactionTransactionId.key, transactionId] as QueryKey,
+    key: [
+      getTransactionTransactionId.key,
+      transactionId,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getTransactionTransactionId(transactionId, configOverride),
   };
 };
@@ -1005,9 +1074,11 @@ useGetTransactionTransactionId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<TransactionApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetTransactionTransactionId.info(
     transactionId,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1015,7 +1086,7 @@ useGetTransactionTransactionId.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -1026,24 +1097,31 @@ export const useGetUserBankUserBankId = (
   options?: SwaggerTypescriptUseQueryOptions<UserBankDetailApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUserBankUserBankId.info(
     userBankId,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUserBankUserBankId.info = (
   /** User bank id */
   userBankId: number,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUserBankUserBankId.key, userBankId] as QueryKey,
+    key: [
+      getUserBankUserBankId.key,
+      userBankId,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getUserBankUserBankId(userBankId, configOverride),
   };
 };
@@ -1055,9 +1133,11 @@ useGetUserBankUserBankId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<UserBankDetailApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUserBankUserBankId.info(
     userBankId,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1065,7 +1145,7 @@ useGetUserBankUserBankId.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 export const useGetUserWalletUserWalletId = (
@@ -1073,23 +1153,30 @@ export const useGetUserWalletUserWalletId = (
   options?: SwaggerTypescriptUseQueryOptions<WalletDetailApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUserWalletUserWalletId.info(
     userWalletId,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGetUserWalletUserWalletId.info = (
   userWalletId: number,
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [getUserWalletUserWalletId.key, userWalletId] as QueryKey,
+    key: [
+      getUserWalletUserWalletId.key,
+      userWalletId,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => getUserWalletUserWalletId(userWalletId, configOverride),
   };
 };
@@ -1099,9 +1186,11 @@ useGetUserWalletUserWalletId.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<WalletDetailApiModel>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGetUserWalletUserWalletId.info(
     userWalletId,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -1109,7 +1198,7 @@ useGetUserWalletUserWalletId.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 

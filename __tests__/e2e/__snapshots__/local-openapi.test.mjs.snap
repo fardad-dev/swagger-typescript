@@ -213,10 +213,15 @@ export type SwaggerTypescriptMutationDefaultParams<TExtra> = {
   _extraVariables?: TExtra;
   configOverride?: AxiosRequestConfig;
 };
+type SwaggerTypescriptExtraQueryKey = {
+  /** Extra values appended to the end of the generated query key. */
+  extraQueryKey?: QueryKey;
+};
 type SwaggerTypescriptUseQueryOptions<TData> = Omit<
   UseQueryOptions<SwaggerResponse<TData>, RequestError | Error>,
   \\"queryKey\\"
->;
+> &
+  SwaggerTypescriptExtraQueryKey;
 
 type SwaggerTypescriptUseMutationOptions<TData, TRequest, TExtra> =
   UseMutationOptions<
@@ -340,25 +345,29 @@ export const useGet_allauthBrowserV1AccountAuthenticators = (
   options?: SwaggerTypescriptUseQueryOptions<Authenticators>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountAuthenticators.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AccountAuthenticators.info = (
   headerParams?: { \\"X-Session-Token\\": SessionToken },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       get_allauthBrowserV1AccountAuthenticators.key,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       get_allauthBrowserV1AccountAuthenticators(headerParams, configOverride),
@@ -370,9 +379,11 @@ useGet_allauthBrowserV1AccountAuthenticators.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<Authenticators>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountAuthenticators.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -380,7 +391,7 @@ useGet_allauthBrowserV1AccountAuthenticators.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -390,26 +401,30 @@ export const useGet_allauthBrowserV1AccountAuthenticatorsRecoveryCodes = (
   options?: SwaggerTypescriptUseQueryOptions<RecoveryCodes>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } =
     useGet_allauthBrowserV1AccountAuthenticatorsRecoveryCodes.info(
       headerParams,
       configOverride,
+      extraQueryKey,
     );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AccountAuthenticatorsRecoveryCodes.info = (
   headerParams?: { \\"X-Session-Token\\": SessionToken },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       get_allauthBrowserV1AccountAuthenticatorsRecoveryCodes.key,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       get_allauthBrowserV1AccountAuthenticatorsRecoveryCodes(
@@ -424,10 +439,12 @@ useGet_allauthBrowserV1AccountAuthenticatorsRecoveryCodes.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<RecoveryCodes>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } =
     useGet_allauthBrowserV1AccountAuthenticatorsRecoveryCodes.info(
       headerParams,
       configOverride,
+      extraQueryKey,
     );
 
   return client.getQueryData(key)
@@ -435,7 +452,7 @@ useGet_allauthBrowserV1AccountAuthenticatorsRecoveryCodes.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -445,25 +462,29 @@ export const useGet_allauthBrowserV1AccountAuthenticatorsTotp = (
   options?: SwaggerTypescriptUseQueryOptions<TOTPAuthenticator>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountAuthenticatorsTotp.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AccountAuthenticatorsTotp.info = (
   headerParams?: { \\"X-Session-Token\\": SessionToken },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
     key: [
       get_allauthBrowserV1AccountAuthenticatorsTotp.key,
       headerParams,
+      ...(extraQueryKey || []),
     ] as QueryKey,
     fun: () =>
       get_allauthBrowserV1AccountAuthenticatorsTotp(
@@ -478,9 +499,11 @@ useGet_allauthBrowserV1AccountAuthenticatorsTotp.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<TOTPAuthenticator>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountAuthenticatorsTotp.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -488,7 +511,7 @@ useGet_allauthBrowserV1AccountAuthenticatorsTotp.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -498,23 +521,30 @@ export const useGet_allauthBrowserV1AccountEmail = (
   options?: SwaggerTypescriptUseQueryOptions<EmailAddresses>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountEmail.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AccountEmail.info = (
   headerParams?: { \\"X-Session-Token\\": SessionToken },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [get_allauthBrowserV1AccountEmail.key, headerParams] as QueryKey,
+    key: [
+      get_allauthBrowserV1AccountEmail.key,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => get_allauthBrowserV1AccountEmail(headerParams, configOverride),
   };
 };
@@ -524,9 +554,11 @@ useGet_allauthBrowserV1AccountEmail.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<EmailAddresses>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountEmail.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -534,7 +566,7 @@ useGet_allauthBrowserV1AccountEmail.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -544,23 +576,30 @@ export const useGet_allauthBrowserV1AccountPhone = (
   options?: SwaggerTypescriptUseQueryOptions<PhoneNumbers>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountPhone.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AccountPhone.info = (
   headerParams?: { \\"X-Session-Token\\": SessionToken },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [get_allauthBrowserV1AccountPhone.key, headerParams] as QueryKey,
+    key: [
+      get_allauthBrowserV1AccountPhone.key,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => get_allauthBrowserV1AccountPhone(headerParams, configOverride),
   };
 };
@@ -570,9 +609,11 @@ useGet_allauthBrowserV1AccountPhone.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<PhoneNumbers>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountPhone.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -580,7 +621,7 @@ useGet_allauthBrowserV1AccountPhone.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -590,23 +631,30 @@ export const useGet_allauthBrowserV1AccountProviders = (
   options?: SwaggerTypescriptUseQueryOptions<ProviderAccounts>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountProviders.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AccountProviders.info = (
   headerParams?: { \\"X-Session-Token\\": SessionToken },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [get_allauthBrowserV1AccountProviders.key, headerParams] as QueryKey,
+    key: [
+      get_allauthBrowserV1AccountProviders.key,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () =>
       get_allauthBrowserV1AccountProviders(headerParams, configOverride),
   };
@@ -617,9 +665,11 @@ useGet_allauthBrowserV1AccountProviders.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<ProviderAccounts>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AccountProviders.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -627,7 +677,7 @@ useGet_allauthBrowserV1AccountProviders.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -637,23 +687,30 @@ export const useGet_allauthBrowserV1AuthEmailVerify = (
   options?: SwaggerTypescriptUseQueryOptions<EmailVerificationInfo>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AuthEmailVerify.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AuthEmailVerify.info = (
   headerParams?: { \\"X-Email-Verification-Key\\": EmailVerificationKey },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [get_allauthBrowserV1AuthEmailVerify.key, headerParams] as QueryKey,
+    key: [
+      get_allauthBrowserV1AuthEmailVerify.key,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () =>
       get_allauthBrowserV1AuthEmailVerify(headerParams, configOverride),
   };
@@ -664,9 +721,11 @@ useGet_allauthBrowserV1AuthEmailVerify.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<EmailVerificationInfo>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AuthEmailVerify.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -674,7 +733,7 @@ useGet_allauthBrowserV1AuthEmailVerify.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -684,23 +743,30 @@ export const useGet_allauthBrowserV1AuthPasswordReset = (
   options?: SwaggerTypescriptUseQueryOptions<PasswordResetInfo>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AuthPasswordReset.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AuthPasswordReset.info = (
   headerParams?: { \\"X-Password-Reset-Key\\": PasswordResetKey },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [get_allauthBrowserV1AuthPasswordReset.key, headerParams] as QueryKey,
+    key: [
+      get_allauthBrowserV1AuthPasswordReset.key,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () =>
       get_allauthBrowserV1AuthPasswordReset(headerParams, configOverride),
   };
@@ -711,9 +777,11 @@ useGet_allauthBrowserV1AuthPasswordReset.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<PasswordResetInfo>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AuthPasswordReset.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -721,7 +789,7 @@ useGet_allauthBrowserV1AuthPasswordReset.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -730,20 +798,27 @@ export const useGet_allauthBrowserV1AuthProviderSignup = (
   options?: SwaggerTypescriptUseQueryOptions<ProviderSignup>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } =
-    useGet_allauthBrowserV1AuthProviderSignup.info(configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGet_allauthBrowserV1AuthProviderSignup.info(
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AuthProviderSignup.info = (
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [get_allauthBrowserV1AuthProviderSignup.key] as QueryKey,
+    key: [
+      get_allauthBrowserV1AuthProviderSignup.key,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => get_allauthBrowserV1AuthProviderSignup(configOverride),
   };
 };
@@ -752,15 +827,18 @@ useGet_allauthBrowserV1AuthProviderSignup.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<ProviderSignup>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } =
-    useGet_allauthBrowserV1AuthProviderSignup.info(configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGet_allauthBrowserV1AuthProviderSignup.info(
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -770,23 +848,30 @@ export const useGet_allauthBrowserV1AuthSession = (
   options?: SwaggerTypescriptUseQueryOptions<Authenticated>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AuthSession.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AuthSession.info = (
   headerParams?: { \\"X-Session-Token\\": SessionToken },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [get_allauthBrowserV1AuthSession.key, headerParams] as QueryKey,
+    key: [
+      get_allauthBrowserV1AuthSession.key,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => get_allauthBrowserV1AuthSession(headerParams, configOverride),
   };
 };
@@ -796,9 +881,11 @@ useGet_allauthBrowserV1AuthSession.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<Authenticated>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AuthSession.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -806,7 +893,7 @@ useGet_allauthBrowserV1AuthSession.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -816,23 +903,30 @@ export const useGet_allauthBrowserV1AuthSessions = (
   options?: SwaggerTypescriptUseQueryOptions<Sessions>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AuthSessions.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
 useGet_allauthBrowserV1AuthSessions.info = (
   headerParams?: { \\"X-Session-Token\\": SessionToken },
   configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
 ) => {
   return {
-    key: [get_allauthBrowserV1AuthSessions.key, headerParams] as QueryKey,
+    key: [
+      get_allauthBrowserV1AuthSessions.key,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
     fun: () => get_allauthBrowserV1AuthSessions(headerParams, configOverride),
   };
 };
@@ -842,9 +936,11 @@ useGet_allauthBrowserV1AuthSessions.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<Sessions>,
   configOverride?: AxiosRequestConfig,
 ) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
   const { key, fun } = useGet_allauthBrowserV1AuthSessions.info(
     headerParams,
     configOverride,
+    extraQueryKey,
   );
 
   return client.getQueryData(key)
@@ -852,7 +948,7 @@ useGet_allauthBrowserV1AuthSessions.prefetch = (
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 
@@ -861,17 +957,24 @@ export const useGet_allauthBrowserV1Config = (
   options?: SwaggerTypescriptUseQueryOptions<Configuration>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGet_allauthBrowserV1Config.info(configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGet_allauthBrowserV1Config.info(
+    configOverride,
+    extraQueryKey,
+  );
 
   return useQuery({
     queryKey: key,
     queryFn: fun,
-    ...options,
+    ...queryOptions,
   });
 };
-useGet_allauthBrowserV1Config.info = (configOverride?: AxiosRequestConfig) => {
+useGet_allauthBrowserV1Config.info = (
+  configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
+) => {
   return {
-    key: [get_allauthBrowserV1Config.key] as QueryKey,
+    key: [get_allauthBrowserV1Config.key, ...(extraQueryKey || [])] as QueryKey,
     fun: () => get_allauthBrowserV1Config(configOverride),
   };
 };
@@ -880,14 +983,18 @@ useGet_allauthBrowserV1Config.prefetch = (
   options?: SwaggerTypescriptUseQueryOptions<Configuration>,
   configOverride?: AxiosRequestConfig,
 ) => {
-  const { key, fun } = useGet_allauthBrowserV1Config.info(configOverride);
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGet_allauthBrowserV1Config.info(
+    configOverride,
+    extraQueryKey,
+  );
 
   return client.getQueryData(key)
     ? Promise.resolve()
     : client.prefetchQuery({
         queryKey: key,
         queryFn: () => fun(),
-        ...options,
+        ...queryOptions,
       });
 };
 

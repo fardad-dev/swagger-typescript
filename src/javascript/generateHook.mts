@@ -93,15 +93,7 @@ function buildHookConfig(
     paramsStringOverride: buildParamsString(api, isInfiniteQuery),
     queryKey: buildQueryKey(api),
     variables: buildVariables(api, context),
-    params: buildHookParams(
-      api,
-      isQuery,
-      isInfiniteQuery,
-      TData,
-      TQueryFnData,
-      TError,
-      context,
-    ),
+    params: buildHookParams(api, isQuery, isInfiniteQuery, TData, context),
   };
 }
 
@@ -182,6 +174,10 @@ function buildQueryKey(api: ApiAST): string {
     parts.push("headerParams");
   }
 
+  // Appended last so the generated key stays a prefix of the extended one,
+  // which keeps prefix-based invalidation matching both.
+  parts.push("...(extraQueryKey || [])");
+
   return `[${parts.join(", ")}]`;
 }
 
@@ -234,8 +230,6 @@ function buildHookParams(
   isQuery: boolean,
   isInfiniteQuery: boolean,
   TData: string,
-  TQueryFnData: string,
-  TError: string,
   context: HookContext,
 ): string[] {
   const params: string[] = [];
@@ -254,7 +248,7 @@ function buildHookParams(
   // Options parameter
   let optionsType: string;
   if (isInfiniteQuery) {
-    optionsType = `UseInfiniteQueryOptions<${TQueryFnData}, ${TError}>`;
+    optionsType = `SwaggerTypescriptUseInfiniteQueryOptions<${TData}>`;
   } else if (isQuery) {
     optionsType = `SwaggerTypescriptUseQueryOptions<${TData}>`;
   } else {
@@ -321,9 +315,10 @@ function generateQueryHookBody(
   config: any,
 ): string {
   let code = `
+    const { extraQueryKey, ...queryOptions } = options || {};
     const { key, fun } = ${hookName}.info(${
       config.paramsString ? `${config.paramsString}, ` : ""
-    }configOverride);
+    }configOverride, extraQueryKey);
   `;
 
   if (isInfiniteQuery) {
@@ -338,7 +333,7 @@ function generateQueryHookBody(
         queryFn: ({ pageParam }) => fun({ ${pageParam}: pageParam }),
         initialPageParam: 1,
         getNextPageParam: (_lastPage, allPages) => allPages.length + 1,
-        ...(options as any),
+        ...(queryOptions as any),
       });
 
       const list = useMemo(() => paginationFlattenData(pages), [pages]);
@@ -352,7 +347,7 @@ function generateQueryHookBody(
       return useQuery({
         queryKey: key,
         queryFn: fun,
-        ...options
+        ...queryOptions
       });
     `;
   }
@@ -393,9 +388,10 @@ function generateInfoMethod(
   isInfiniteQuery: boolean,
   config: any,
 ): string {
-  const infoParams = config.params
-    .filter((p: string) => !p.startsWith("options?:"))
-    .join(", ");
+  const infoParams = [
+    ...config.params.filter((p: string) => !p.startsWith("options?:")),
+    "extraQueryKey?: QueryKey",
+  ].join(", ");
 
   const queryParamForPaging = isInfiniteQuery
     ? api.queryParamsTypeName
@@ -430,16 +426,17 @@ function generatePrefetchMethod(
       client: QueryClient,
       ${config.params.join(", ")}
     ) => {
+      const { extraQueryKey, ...queryOptions } = options || {};
       const { key, fun } = ${hookName}.info(${
         config.paramsString ? `${config.paramsString},` : ""
-      }configOverride);
+      }configOverride, extraQueryKey);
 
       return client.getQueryData(key)
         ? Promise.resolve()
         : client.prefetchQuery({
             queryKey: key,
             queryFn: () => fun(),
-            ...options
+            ...queryOptions
           });
     };`;
 }
@@ -465,7 +462,11 @@ function buildFinalCode(
   // Add type definitions
   code += `
     export type SwaggerTypescriptMutationDefaultParams<TExtra> = {_extraVariables?: TExtra, configOverride?: AxiosRequestConfig}
-    type SwaggerTypescriptUseQueryOptions<TData> = Omit<UseQueryOptions<SwaggerResponse<TData>, RequestError | Error>, "queryKey">;
+    type SwaggerTypescriptExtraQueryKey = {
+      /** Extra values appended to the end of the generated query key. */
+      extraQueryKey?: QueryKey;
+    };
+    type SwaggerTypescriptUseQueryOptions<TData> = Omit<UseQueryOptions<SwaggerResponse<TData>, RequestError | Error>, "queryKey"> & SwaggerTypescriptExtraQueryKey;
 
     type SwaggerTypescriptUseMutationOptions<TData, TRequest, TExtra> = UseMutationOptions<
       SwaggerResponse<TData>,
@@ -473,6 +474,16 @@ function buildFinalCode(
       TRequest & SwaggerTypescriptMutationDefaultParams<TExtra>
     >;
   `;
+
+  // Partial: the hook supplies queryKey, initialPageParam and getNextPageParam
+  // itself, which react-query v5 otherwise makes mandatory on the options.
+  if (context.hasInfiniteQuery) {
+    code += `
+    type SwaggerTypescriptUseInfiniteQueryOptions<TData> = Partial<
+      UseInfiniteQueryOptions<SwaggerResponse<TData>, RequestError | Error>
+    > & SwaggerTypescriptExtraQueryKey;
+  `;
+  }
 
   // Add SwaggerTypescriptUseMutationOptionsVoid only if needed
   if (context.hasMutationWithoutVariables) {
