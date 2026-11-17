@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.11.0](https://github.com/hosseinmd/swagger-typescript/compare/v6.10.2...v6.11.0) (2026-11-17)
+
+
+### Features
+
+* **hooks:** add extraQueryKey to append values to the query key ([89d5cb4](https://github.com/hosseinmd/swagger-typescript/commit/89d5cb4f3e1f95a58aba0352c09e2450b66842e9))
+
+
+### Bug Fixes
+
+* **http:** merge configOverride params with query params ([a7024bd](https://github.com/hosseinmd/swagger-typescript/commit/a7024bdd439c892bc5da01754d32501b7b6caf24))
+
 ### [6.10.2](https://github.com/hosseinmd/swagger-typescript/compare/v6.10.0...v6.10.2) (2026-09-12)
 
 
