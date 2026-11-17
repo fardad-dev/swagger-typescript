@@ -41,8 +41,8 @@ export const Http = {
     return cancellation((cancelToken) =>
       getAxiosInstance(security).get(url, {
         cancelToken,
-        params: queryParams,
         ...configOverride,
+        params: { ...configOverride?.params, ...queryParams },
       }),
     );
   },
@@ -56,8 +56,8 @@ export const Http = {
     return cancellation((cancelToken) =>
       getAxiosInstance(security).post(url, requestBody, {
         cancelToken,
-        params: queryParams,
         ...configOverride,
+        params: { ...configOverride?.params, ...queryParams },
       }),
     );
   },
@@ -71,8 +71,8 @@ export const Http = {
     return cancellation((cancelToken) =>
       getAxiosInstance(security).put(url, requestBody, {
         cancelToken,
-        params: queryParams,
         ...configOverride,
+        params: { ...configOverride?.params, ...queryParams },
       }),
     );
   },
@@ -86,8 +86,8 @@ export const Http = {
     return cancellation((cancelToken) =>
       getAxiosInstance(security).patch(url, requestBody, {
         cancelToken,
-        params: queryParams,
         ...configOverride,
+        params: { ...configOverride?.params, ...queryParams },
       }),
     );
   },
@@ -102,8 +102,8 @@ export const Http = {
       getAxiosInstance(security).delete(url, {
         data: requestBody,
         cancelToken,
-        params: queryParams,
         ...configOverride,
+        params: { ...configOverride?.params, ...queryParams },
       }),
     );
   },
