@@ -1,0 +1,320 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useSuspenseQuery generate suspense hooks for listed apis: generate hooks 1`] = `
+"//@ts-nocheck
+/**
+ * AUTO_GENERATED Do not change this file directly, use config.ts file instead
+ *
+ * @version 6
+ */
+
+import { useMemo } from \\"react\\";
+import { AxiosRequestConfig } from \\"axios\\";
+import {
+  UseQueryOptions,
+  useQuery,
+  useMutation,
+  UseMutationOptions,
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+  useSuspenseInfiniteQuery,
+  UseSuspenseInfiniteQueryOptions,
+  QueryClient,
+  QueryKey,
+} from \\"@tanstack/react-query\\";
+import { RequestError, SwaggerResponse } from \\"./config\\";
+import { paginationFlattenData, getPageSize, getTotal } from \\"./hooksConfig\\";
+import type {
+  BankApiModel,
+  GetBusinessUserConnectionActiveQueryParams,
+  SubUserConnectionApiModel,
+  UserMeQuery,
+} from \\"./types\\";
+import {
+  getBank,
+  getBusinessUserConnectionActive,
+  getUserMe,
+  postServiceVerifyApiKey,
+} from \\"./services\\";
+
+const useHasMore = (
+  pages: Array<SwaggerResponse<any>> | undefined,
+  list: any,
+  queryParams: any,
+) =>
+  useMemo(() => {
+    if (!pages || (pages && pages.length < 1)) {
+      return false;
+    }
+
+    const total = getTotal(pages);
+
+    if (total !== undefined) {
+      if (list && list.length < total) {
+        return true;
+      }
+      return false;
+    }
+    if (
+      paginationFlattenData([pages[pages.length - 1]])?.length ===
+      getPageSize(queryParams as any)
+    ) {
+      return true;
+    }
+
+    return false;
+  }, [pages, list, queryParams]);
+
+export type SwaggerTypescriptMutationDefaultParams<TExtra> = {
+  _extraVariables?: TExtra;
+  configOverride?: AxiosRequestConfig;
+};
+type SwaggerTypescriptExtraQueryKey = {
+  /** Extra values appended to the end of the generated query key. */
+  extraQueryKey?: QueryKey;
+};
+type SwaggerTypescriptUseQueryOptions<TData> = Omit<
+  UseQueryOptions<SwaggerResponse<TData>, RequestError | Error>,
+  \\"queryKey\\"
+> &
+  SwaggerTypescriptExtraQueryKey;
+
+type SwaggerTypescriptUseMutationOptions<TData, TRequest, TExtra> =
+  UseMutationOptions<
+    SwaggerResponse<TData>,
+    RequestError | Error,
+    TRequest & SwaggerTypescriptMutationDefaultParams<TExtra>
+  >;
+
+type SwaggerTypescriptUseInfiniteQueryOptions<TData> = Partial<
+  UseInfiniteQueryOptions<SwaggerResponse<TData>, RequestError | Error>
+> &
+  SwaggerTypescriptExtraQueryKey;
+
+type SwaggerTypescriptUseSuspenseQueryOptions<TData> = Omit<
+  UseSuspenseQueryOptions<SwaggerResponse<TData>, RequestError | Error>,
+  \\"queryKey\\"
+> &
+  SwaggerTypescriptExtraQueryKey;
+
+type SwaggerTypescriptUseSuspenseInfiniteQueryOptions<TData> = Partial<
+  UseSuspenseInfiniteQueryOptions<SwaggerResponse<TData>, RequestError | Error>
+> &
+  SwaggerTypescriptExtraQueryKey;
+
+/** Get available banks */
+export const useGetBank = (
+  options?: SwaggerTypescriptUseSuspenseQueryOptions<BankApiModel[]>,
+  configOverride?: AxiosRequestConfig,
+) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetBank.info(configOverride, extraQueryKey);
+
+  return useSuspenseQuery({
+    queryKey: key,
+    queryFn: fun,
+    ...queryOptions,
+  });
+};
+useGetBank.info = (
+  configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
+) => {
+  return {
+    key: [getBank.key, ...(extraQueryKey || [])] as QueryKey,
+    fun: () => getBank(configOverride),
+  };
+};
+useGetBank.prefetch = (
+  client: QueryClient,
+  options?: SwaggerTypescriptUseSuspenseQueryOptions<BankApiModel[]>,
+  configOverride?: AxiosRequestConfig,
+) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetBank.info(configOverride, extraQueryKey);
+
+  return client.getQueryData(key)
+    ? Promise.resolve()
+    : client.prefetchQuery({
+        queryKey: key,
+        queryFn: () => fun(),
+        ...queryOptions,
+      });
+};
+
+/**
+ * Get active connections ordered by Transactions count [Feature just allowed
+ * for the business users]
+ */
+export const useGetBusinessUserConnectionActive = (
+  queryParams?: GetBusinessUserConnectionActiveQueryParams,
+  options?: SwaggerTypescriptUseSuspenseInfiniteQueryOptions<
+    SubUserConnectionApiModel[]
+  >,
+  configOverride?: AxiosRequestConfig,
+) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetBusinessUserConnectionActive.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
+
+  const {
+    data: { pages } = {},
+    data,
+    ...rest
+  } = useSuspenseInfiniteQuery({
+    queryKey: key,
+    queryFn: ({ pageParam }) => fun({ page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: (_lastPage, allPages) => allPages.length + 1,
+    ...(queryOptions as any),
+  });
+
+  const list = useMemo(() => paginationFlattenData(pages), [pages]);
+  const total = getTotal(pages);
+  const hasMore = useHasMore(pages, list, queryParams);
+
+  return { ...rest, data, list, hasMore, total };
+};
+useGetBusinessUserConnectionActive.info = (
+  queryParams?: GetBusinessUserConnectionActiveQueryParams,
+  configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
+) => {
+  return {
+    key: [
+      getBusinessUserConnectionActive.key,
+      queryParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
+    fun: (_param: Partial<GetBusinessUserConnectionActiveQueryParams>) =>
+      getBusinessUserConnectionActive(
+        { ..._param, ...queryParams },
+        configOverride,
+      ),
+  };
+};
+useGetBusinessUserConnectionActive.prefetch = (
+  client: QueryClient,
+  queryParams?: GetBusinessUserConnectionActiveQueryParams,
+  options?: SwaggerTypescriptUseSuspenseInfiniteQueryOptions<
+    SubUserConnectionApiModel[]
+  >,
+  configOverride?: AxiosRequestConfig,
+) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetBusinessUserConnectionActive.info(
+    queryParams,
+    configOverride,
+    extraQueryKey,
+  );
+
+  return client.getQueryData(key)
+    ? Promise.resolve()
+    : client.prefetchQuery({
+        queryKey: key,
+        queryFn: () => fun(),
+        ...queryOptions,
+      });
+};
+
+/** Get user profile summary */
+export const useGetUserMe = (
+  options?: SwaggerTypescriptUseQueryOptions<UserMeQuery>,
+  configOverride?: AxiosRequestConfig,
+) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUserMe.info(configOverride, extraQueryKey);
+
+  return useQuery({
+    queryKey: key,
+    queryFn: fun,
+    ...queryOptions,
+  });
+};
+useGetUserMe.info = (
+  configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
+) => {
+  return {
+    key: [getUserMe.key, ...(extraQueryKey || [])] as QueryKey,
+    fun: () => getUserMe(configOverride),
+  };
+};
+useGetUserMe.prefetch = (
+  client: QueryClient,
+  options?: SwaggerTypescriptUseQueryOptions<UserMeQuery>,
+  configOverride?: AxiosRequestConfig,
+) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = useGetUserMe.info(configOverride, extraQueryKey);
+
+  return client.getQueryData(key)
+    ? Promise.resolve()
+    : client.prefetchQuery({
+        queryKey: key,
+        queryFn: () => fun(),
+        ...queryOptions,
+      });
+};
+
+/** Verify the ApiKey for authorizing the [User] */
+export const usePostServiceVerifyApiKey = (
+  headerParams?: { apiKey: string },
+  options?: SwaggerTypescriptUseSuspenseQueryOptions<boolean>,
+  configOverride?: AxiosRequestConfig,
+) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = usePostServiceVerifyApiKey.info(
+    headerParams,
+    configOverride,
+    extraQueryKey,
+  );
+
+  return useSuspenseQuery({
+    queryKey: key,
+    queryFn: fun,
+    ...queryOptions,
+  });
+};
+usePostServiceVerifyApiKey.info = (
+  headerParams?: { apiKey: string },
+  configOverride?: AxiosRequestConfig,
+  extraQueryKey?: QueryKey,
+) => {
+  return {
+    key: [
+      postServiceVerifyApiKey.key,
+      headerParams,
+      ...(extraQueryKey || []),
+    ] as QueryKey,
+    fun: () => postServiceVerifyApiKey(headerParams, configOverride),
+  };
+};
+usePostServiceVerifyApiKey.prefetch = (
+  client: QueryClient,
+  headerParams?: { apiKey: string },
+  options?: SwaggerTypescriptUseSuspenseQueryOptions<boolean>,
+  configOverride?: AxiosRequestConfig,
+) => {
+  const { extraQueryKey, ...queryOptions } = options || {};
+  const { key, fun } = usePostServiceVerifyApiKey.info(
+    headerParams,
+    configOverride,
+    extraQueryKey,
+  );
+
+  return client.getQueryData(key)
+    ? Promise.resolve()
+    : client.prefetchQuery({
+        queryKey: key,
+        queryFn: () => fun(),
+        ...queryOptions,
+      });
+};
+"
+`;

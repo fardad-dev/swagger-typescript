@@ -267,6 +267,11 @@ export interface FileConfig {
   excludes?: string[];
   useQuery?: string[];
   useInfiniteQuery?: string[];
+  /**
+   * Hooks which should suspend (useSuspenseQuery / useSuspenseInfiniteQuery).
+   * Needs @tanstack/react-query v5
+   */
+  useSuspenseQuery?: string[];
   mock?: string;
   prettierPath?: string;
   language?: "javascript" | "typescript" | "kotlin";

@@ -109,6 +109,7 @@ For Example:
 | `reactHooks`         | false                  | For generate react hooks of all APIs (using react-query under the hood)                                                                                                                                                                        |
 | `useQuery`           | []                     | List of apis which is get but developed with post methods (Is useful for rest apis) for Example: ["postTicketsGetall"] (Needed to enable `reactHooks`)                                                                                         |
 | `useInfiniteQuery`   | []                     | List of apis which is get and could be handle infinity (Needed to enable `reactHooks`) parameter should be one of `page`, `pageNo` or `pageNumber`                                                                                             |
+| `useSuspenseQuery`   | []                     | List of apis which should use [suspense](#suspense-query) for Example: ["getUsers"] (Needed to enable `reactHooks`, and react-query v5)                                                                                                        |
 | `local`              | false                  | update swagger with local swagger.json located in your dir folder. add it to your config file or run it with cli `$ yarn swag-ts --local`                                                                                                      |
 | `kotlinPackage`      | Required (Only kotlin) | package name of source dir                                                                                                                                                                                                                     |
 | `generateEnumAsType` | false                  |
@@ -153,6 +154,26 @@ await useGetPets.prefetch(queryClient, queryParams, {
   extraQueryKey: ["tenant-1"],
 });
 ```
+
+## Suspense query
+
+To use React Suspense for an api, add its name to `useSuspenseQuery`. Its hook will be generated with `useSuspenseQuery` instead of `useQuery`, so `data` is always defined, and loading and error are handled by the nearest `<Suspense>` and error boundary. It needs `@tanstack/react-query` v5.
+
+```json
+{
+  "reactHooks": true,
+  "useSuspenseQuery": ["getUsers", "getProfile"]
+}
+```
+
+```tsx
+// suspends while loading, data is not undefined
+const { data } = useGetUsers(queryParams);
+```
+
+- An api which is not a get will be generated as a query, same as `useQuery`.
+- An api which is also in `useInfiniteQuery` will be generated with `useSuspenseInfiniteQuery`.
+- Suspense hooks do not accept the `enabled`, `placeholderData` and `throwOnError` options.
 
 ## Run by node
 

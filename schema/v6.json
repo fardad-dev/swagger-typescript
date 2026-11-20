@@ -53,6 +53,13 @@
       },
       "description": "To infinity load functionality for your api hook add hook name to this array"
     },
+    "useSuspenseQuery": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "To generate an api hook with useSuspenseQuery (useSuspenseInfiniteQuery when it is also in useInfiniteQuery) add hook name to this array. Needs @tanstack/react-query v5"
+    },
     "language": {
       "type": "string",
       "enum": ["javascript", "typescript", "kotlin"],

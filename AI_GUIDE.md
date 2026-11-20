@@ -59,6 +59,7 @@ After the first run, open `{dir}/config.ts` and set `baseURL` (see [Customizing 
 | `reactHooks`          | boolean                                    | `false`                             | Also generate `hooks.ts` with react-query hooks.                                                                                                                                                         |
 | `useQuery`            | string[]                                   | `[]`                                | Non-GET endpoints that should get a query hook instead of a mutation hook, for example a POST that only reads data.                                                                                      |
 | `useInfiniteQuery`    | string[]                                   | `[]`                                | Endpoints that should get an infinite-query hook.                                                                                                                                                        |
+| `useSuspenseQuery`    | string[]                                   | `[]`                                | Endpoints whose query hook should suspend. See [Suspense query hooks](#suspense-query-hooks). Needs react-query v5.                                                                                      |
 | `includes`            | string[]                                   | `[]`                                | Regex patterns. When set, only endpoints whose function name matches one of them are generated.                                                                                                          |
 | `excludes`            | string[]                                   | `[]`                                | Regex patterns. Endpoints whose function name matches one of them are skipped.                                                                                                                           |
 | `generateEnumAsType`  | boolean                                    | `false`                             | `false` emits `enum Status { A = "A" }`. `true` emits `type Status = "A" \| "B"`.                                                                                                                        |
@@ -70,7 +71,7 @@ After the first run, open `{dir}/config.ts` and set `baseURL` (see [Customizing 
 | `hub`                 | string                                     | none                                | URL of a SignalR hub description. Generates `{dir}/hub.ts`.                                                                                                                                              |
 | `kotlinPackage`       | string                                     | required for kotlin                 | Package name written at the top of the Kotlin files.                                                                                                                                                     |
 
-`useQuery` and `useInfiniteQuery` accept either the function name (`postTicketsGetall`) or the hook name (`usePostTicketsGetall`), in any letter case.
+`useQuery`, `useInfiniteQuery` and `useSuspenseQuery` accept either the function name (`postTicketsGetall`) or the hook name (`usePostTicketsGetall`), in any letter case.
 
 `includes` and `excludes` are tested against the generated function name, such as `getPetPetId`, and are case sensitive. With both set, an endpoint is generated when it matches an include and no exclude.
 
@@ -202,6 +203,7 @@ Which hook an endpoint gets:
 
 - `GET` endpoints, and endpoints listed in `useQuery`, get a query hook.
 - Endpoints listed in `useInfiniteQuery` get an infinite-query hook.
+- Endpoints listed in `useSuspenseQuery` get the suspense version of their query hook. This needs react-query v5.
 - Everything else gets a mutation hook.
 
 ### Query hooks
@@ -307,6 +309,22 @@ How it works, and what to check when it does not fit the API:
 - Do not put the page parameter in `queryParams`. A value there overrides the hook's page number, so every page would load the same data.
 - `list`, `total` and `hasMore` are computed by the helpers in `hooksConfig.ts`. By default they read the items from `page.data`, `page.data.data` or `page.data.list`, and the total from `page.data.total`. When no total exists, `hasMore` compares the last page length with the `pageSize` query parameter (10 when absent). If the API uses other field names, such as `results` and `count`, edit `hooksConfig.ts` to match.
 
+### Suspense query hooks
+
+Add the endpoint to `useSuspenseQuery` in the config and regenerate. The hook keeps its name and arguments, but calls `useSuspenseQuery` instead of `useQuery`:
+
+```tsx
+// swagger.config.json: "useSuspenseQuery": ["useGetPetPetId"]
+const { data: pet } = useGetPetPetId(petId); // data is never undefined
+```
+
+- The component suspends while loading and throws on error, so render it under a `<Suspense>` and an error boundary.
+- The options are react-query's suspense options: `enabled`, `placeholderData` and `throwOnError` are not accepted.
+- `.info()`, `.prefetch()` and `extraQueryKey` work as for any query hook.
+- A non-GET endpoint listed here gets a query hook, as if it were also in `useQuery`.
+- An endpoint listed in both `useSuspenseQuery` and `useInfiniteQuery` calls `useSuspenseInfiniteQuery` and returns the same extra fields as an infinite hook.
+- The list replaces the hook. To use one endpoint both with and without suspense, leave it out of the list and call react-query's `useSuspenseQuery` with the `key` and `fun` from `.info()`.
+
 ## Customizing config.ts
 
 `config.ts` is created on the first run and never overwritten. All project-specific HTTP behavior goes here.
@@ -368,3 +386,4 @@ The entry is chosen by `--branch`, otherwise by the current git branch or the cl
 | Formatting fails or looks wrong            | Point `prettierPath` at a JSON prettier config.                                                                                                     |
 | `Cannot find module 'qs'`                  | Add `qs` to the app's dependencies.                                                                                                                 |
 | `list` is empty in an infinite hook        | The API's page shape differs from the defaults. Edit the helpers in `hooksConfig.ts`.                                                               |
+| `useSuspenseQuery` is not exported         | Suspense hooks need `@tanstack/react-query` v5. Upgrade it, or remove the endpoint from `useSuspenseQuery`.                                         |
